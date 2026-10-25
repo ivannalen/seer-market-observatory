@@ -29,7 +29,7 @@ export const Route = createFileRoute("/deep")({
 });
 
 function DeepPage() {
-  const [selectedId, setSelectedId] = useState<string | null>(DEEP_CANDIDATES[0].id);
+  const [selectedId, setSelectedId] = useState<string | null>(DEEP_CANDIDATES[0]?.id ?? null);
   const selected = DEEP_CANDIDATES.find((c) => c.id === selectedId) ?? null;
   const ranked = [...DEEP_CANDIDATES].sort((a, b) => b.share - a.share);
 

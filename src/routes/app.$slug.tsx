@@ -71,6 +71,7 @@ function MarketDetail() {
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <Link
           to="/app"
+          search={{ family: undefined }}
           className="eyebrow mt-8 inline-flex items-center gap-2 border-b border-ink pb-1 text-ink transition-colors hover:text-violet-deep"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to the atlas
@@ -255,7 +256,7 @@ function SignatureChart({ history }: { history: number[] }) {
   const line = history.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
   const area = `${line} L${x(history.length - 1).toFixed(1)},${H - pad.b} L${x(0).toFixed(1)},${H - pad.b} Z`;
 
-  const last = history[history.length - 1];
+  const last = history[history.length - 1] ?? 0;
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="mt-6 w-full" role="img" aria-label="Sample price history">

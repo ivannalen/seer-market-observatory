@@ -40,7 +40,7 @@ export function Signature({
     >
       {fillArea ? <path d={area} className="fill-current opacity-[0.12]" /> : null}
       <path d={line} fill="none" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx={x(n - 1)} cy={y(data[n - 1])} r="2.2" className="fill-current" />
+      <circle cx={x(n - 1)} cy={y(data[n - 1] ?? 0)} r="2.2" className="fill-current" />
     </svg>
   );
 }
@@ -264,7 +264,7 @@ export function FrontierChart({
 
   const sorted = [...candidates].sort((a, b) => b.odds - a.odds);
   const frontier = sorted.slice(0, slots);
-  const threshold = frontier.length === slots ? frontier[slots - 1].odds : 0;
+  const threshold = frontier.length === slots ? (frontier[slots - 1]?.odds ?? 0) : 0;
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-label="Candidate frontier: reviewer score against selection odds">
@@ -345,7 +345,7 @@ export function OddsStrip({
     <div className="relative h-10 w-full">
       <div className="absolute inset-x-0 top-1/2 h-px bg-rule" />
       {odds.map((o, i) => {
-        const sel = selectedIds.includes(ids[i]);
+        const sel = typeof ids[i] === "string" && selectedIds.includes(ids[i]);
         return (
           <div
             key={i}

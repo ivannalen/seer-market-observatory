@@ -607,11 +607,11 @@ export const ATLAS: AtlasMarket[] = [
         question: DEEP_MARKET.question,
         type: "distribution",
         category: "Governance",
-        p: DEEP_CANDIDATES[0].share,
+        p: DEEP_CANDIDATES[0]?.share ?? 0.21,
         liquidity: 340_000,
         volume: 980_000,
         closes: "2026-10-15",
-        history: series(53, DEEP_CANDIDATES[0].share, 0.04, 0.02),
+        history: series(53, DEEP_CANDIDATES[0]?.share ?? 0.21, 0.04, 0.02),
         summary:
           "The full grant-evaluation field: twelve outcomes priced at once, each with a 90% uncertainty band. The distribution is the object.",
         resolution: "Official grant announcement.",

@@ -29,7 +29,7 @@ export const Route = createFileRoute("/futarchy")({
 });
 
 function FutarchyPage() {
-  const [activeId, setActiveId] = useState(FUTARCHY_PROPOSALS[0].id);
+  const [activeId, setActiveId] = useState(FUTARCHY_PROPOSALS[0]?.id ?? "f1");
   const found = FUTARCHY_PROPOSALS.find((x) => x.id === activeId);
   const p = found ?? FUTARCHY_PROPOSALS[0];
   if (!p) return null;
