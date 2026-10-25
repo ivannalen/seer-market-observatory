@@ -11,3 +11,12 @@
 - [x] Route 5 — OPPORTUNITY `/opportunity` : candidate field, selection odds, slots, frontier chart, reviewer shortlist interaction, human-authority note
 - [x] Route 6 — RISK `/risk` : comparative spectrum with uncertainty ranges, history, comparison table, estimate-vs-fact distinction, no-safety-guarantee note
 - [x] Verify: build + routing test + Playwright pass over all six routes
+
+## Round 2 — Information-finance direction (two-sided marketplace, universal explorer)
+
+- [x] Shared market data structure: every instrument (incl. Deep, Futarchy, Opportunity, Risk) discoverable in one atlas list — `ATLAS` in `src/data/seer.ts`
+- [x] Universal explorer: origin-family column + deep-link filters (`/app?family=deep|futarchy|opportunity|risk`) in the atlas
+- [x] Market detail pages: WHO asks (seeker) + decision informed, WHAT is priced (existing), HOW to use the signal with uncertainty and limitations
+- [x] Two-sided marketplace framing on Home (seekers ↔ traders) and in the transformation figure copy
+- [x] Cross-links from each specialized application back into the universal atlas (pre-filtered)
+- [ ] Live Seer data integration (blocked: no reliable public feed in the prototype)

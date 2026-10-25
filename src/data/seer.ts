@@ -474,7 +474,198 @@ export const RISK_PROTOCOLS: RiskProtocol[] = [
     estimates: ["Market weights signer concentration over latency", "Band top assumes one signer goes silent"] },
 ];
 
-/* ============ HOME — constellation ============ */
+/* ============ WHO / WHAT / HOW — the reading, in decision terms ============ */
+
+export interface MarketInsight {
+  /** The information seeker behind the instrument (sample). */
+  seeker: string;
+  /** The concrete decision this reading could inform (sample). */
+  decision: string;
+  /** How the signal is used (sample). */
+  signal: string;
+  /** Known limits of the reading (sample). */
+  limitations: string;
+}
+
+export const FALLBACK_INSIGHT: MarketInsight = {
+  seeker: "A research desk monitoring this question for planning purposes.",
+  decision: "Position sizing and scenario planning for the outcomes in question.",
+  signal: "Read the current figure against its recent drift; treat sharp moves as new information.",
+  limitations: "Sample data. The reading is only as good as its resolution rule and its liquidity.",
+};
+
+export const INSIGHTS: Record<string, MarketInsight> = {
+  "us-recession-2026": {
+    seeker: "A treasury team hedging the timing of a debt issuance scheduled for late 2026.",
+    decision: "Whether to lock financing terms now or stage the issuance across two windows.",
+    signal: "Use the level as a base rate and the drift as a stress indicator for planning scenarios.",
+    limitations: "Sample data. NBER declarations lag reality by months, so the price tracks expectations, not the event itself.",
+  },
+  "open-weights-frontier-lab": {
+    seeker: "A developer-relations team planning which model ecosystem to build tooling for.",
+    decision: "Which SDK integration to staff first for the next roadmap cycle.",
+    signal: "Rank candidates by share, then check band overlap: adjacent shares mean the ranking is unsettled.",
+    limitations: "Sample data. 'Frontier-scale' is judged by a committee rule that can redefine the market mid-flight.",
+  },
+  "btc-above-150k-sept": {
+    seeker: "A payments company managing float held partly in crypto assets.",
+    decision: "How much settlement float to keep in kind versus convert to stable value.",
+    signal: "Compare the price against realized volatility in the signature before setting conversion thresholds.",
+    limitations: "Sample data. A threshold instrument is binary — it says nothing about where price settles between thresholds.",
+  },
+  "q3-public-goods-fund": {
+    seeker: "The fund's oversight committee, watching how the field reads its own shortlist.",
+    decision: "Whether to adjust reviewer attention toward under-priced candidates before the deadline.",
+    signal: "Treat wide bands as contested candidates worth a second review pass.",
+    limitations: "Sample data. The market reads the reviewers; it cannot see their private deliberations.",
+  },
+  "cop31-binding-pledge": {
+    seeker: "A climate-adjacent infrastructure fund timing capital deployment in exposed regions.",
+    decision: "Whether to front-load commitments that depend on a strong interim framework.",
+    signal: "The step-changes in the signature track negotiation sessions, not sentiment.",
+    limitations: "Sample data. 'Binding' is a legal reading that observers can dispute after the fact.",
+  },
+  "futarchy-treasury-diversify": {
+    seeker: "The DAO itself, which must vote on the diversification proposal.",
+    decision: "Vote for or against the proposal, informed by the priced gap between the two worlds.",
+    signal: "Read the gap and its confidence together; a small gap at high confidence is still informative.",
+    limitations: "Sample data. Conditional markets carry basis risk: the oracle's metric can diverge from the DAO's real objective.",
+  },
+  "bridge-exploit-90d": {
+    seeker: "A risk team sizing cross-chain exposure limits for the quarter.",
+    decision: "Whether to cap bridge transfers or add monitoring above the current threshold.",
+    signal: "Use the level for expected loss; use the band width to size the tail scenario.",
+    limitations: "Sample data. Aggregate instruments hide which bridge carries the risk — read per-protocol pages too.",
+  },
+  "worldcup-2026-winner": {
+    seeker: "A broadcast planner allocating promotion budget across national audiences.",
+    decision: "Which markets to prioritize for advertising buys as rounds eliminate teams.",
+    signal: "Watch mass concentrate after each round; eliminated branches go to zero sharply.",
+    limitations: "Sample data. Tournament draws can restructure the field faster than prices adjust.",
+  },
+  "futarchy-node-incentive": {
+    seeker: "The DAO's infrastructure working group.",
+    decision: "Whether to recommend the node incentive program for an on-chain vote.",
+    signal: "Compare the priced operator gap against the program's fully-diluted cost per operator.",
+    limitations: "Sample data. Sybil-resistant operator counts are hard to measure; the oracle rule carries that burden.",
+  },
+  "mars-sample-return-2028": {
+    seeker: "An instrument supplier planning production capacity for the campaign window.",
+    decision: "Whether to hold or retool production lines scheduled to idle in 2027.",
+    signal: "Long-horizon prices move on funding and review events; ignore day-to-day wobble.",
+    limitations: "Sample data. Very long horizons carry re-definition risk: scope changes can reset the market.",
+  },
+  "l2-fees-under-cent": {
+    seeker: "A consumer app choosing where to deploy its transaction-heavy features.",
+    decision: "Which L2 to build on for the next product cycle.",
+    signal: "A sustained high reading is a stronger deployment signal than the point estimate alone.",
+    limitations: "Sample data. Median-fee oracles can disagree with end-user experience during congestion spikes.",
+  },
+  "opportunity-cohort-fall": {
+    seeker: "The residency program's curators, watching how the field reads their applicant pool.",
+    decision: "Where to spend limited interview slots before final selection.",
+    signal: "Interview candidates whose market odds diverge most from reviewer scores.",
+    limitations: "Sample data. The market prices perceptions of selection, not the selection itself.",
+  },
+  "us-election-turnout-record": {
+    seeker: "A civic-tech coalition staffing observation infrastructure.",
+    decision: "How many field observers to mobilize for the November window.",
+    signal: "Read the convergence in the signature as the market settling on a turnout regime.",
+    limitations: "Sample data. Turnout records are certified late; the market trades on projections first.",
+  },
+  "stablecoin-depeg-30d": {
+    seeker: "A settlement desk routing high-value payments through stablecoin rails.",
+    decision: "Which rails to keep enabled for large settlements this month.",
+    signal: "Pair the low point estimate with the band top when setting alerts and thresholds.",
+    limitations: "Sample data. A quiet 30 days is not evidence about the next 30.",
+  },
+};
+
+/* ============ Universal atlas — every instrument, one structure ============ */
+
+export interface AtlasMarket extends Market {
+  /** Link target for the atlas row: detail page or specialized application. */
+  href: string;
+  /** Application family the instrument originates from. */
+  origin: string;
+}
+
+const atlasFromMarket = (m: Market, origin = "Atlas"): AtlasMarket => ({
+  ...m,
+  href: `/app/${m.slug}`,
+  origin,
+});
+
+export const ATLAS: AtlasMarket[] = [
+  ...MARKETS.map((m) => atlasFromMarket(m, m.slug === "opportunity-cohort-fall" ? "Opportunity" : "Atlas")),
+
+  // Deep — the many-outcome field, in the atlas
+  {
+    ...atlasFromMarket(
+      {
+        slug: "deep-field-q3",
+        question: DEEP_MARKET.question,
+        type: "distribution",
+        category: "Governance",
+        p: DEEP_CANDIDATES[0].share,
+        liquidity: 340_000,
+        volume: 980_000,
+        closes: "2026-10-15",
+        history: series(53, DEEP_CANDIDATES[0].share, 0.04, 0.02),
+        summary:
+          "The full grant-evaluation field: twelve outcomes priced at once, each with a 90% uncertainty band. The distribution is the object.",
+        resolution: "Official grant announcement.",
+      },
+      "Deep",
+    ),
+    href: "/deep",
+  },
+
+  // Futarchy — the remaining conditional cases
+  ...FUTARCHY_PROPOSALS.slice(1).map((f) =>
+    atlasFromMarket(
+      {
+        slug: `futarchy-${f.id}`,
+        question: `${f.title}: will ${f.metric.toLowerCase()} beat the fails-world estimate?`,
+        type: "comparison" as const,
+        category: "Futarchy",
+        p: f.price,
+        liquidity: 560_000,
+        volume: 1_900_000,
+        closes: "2026-09-01",
+        history: series(59, f.price, 0.05, 0.03),
+        summary: `Conditional instrument pricing ${f.metric} (${f.unit}) in both decision worlds. The gap between them is the reading.`,
+        resolution: "Conditional markets settle against the published metric oracle.",
+      },
+      "Futarchy",
+    ),
+  ).map((m) => ({ ...m, href: "/futarchy" })),
+
+  // Risk — protocol-level instruments on the comparative spectrum
+  ...RISK_PROTOCOLS.slice(0, 3).map((r, i) =>
+    atlasFromMarket(
+      {
+        slug: `risk-${r.id}`,
+        question: `What is the current market-implied risk of ${r.name}?`,
+        type: "risk" as const,
+        category: r.category,
+        p: r.estimate / 100,
+        liquidity: 640_000 + i * 120_000,
+        volume: 1_800_000 + i * 400_000,
+        closes: "2026-12-31",
+        history: series(61 + i, r.estimate / 100, -0.03, 0.03),
+        summary: `Risk estimate for ${r.name} on the shared 0–100 spectrum, with a drawn uncertainty band. Facts and estimates are kept apart on the protocol page.`,
+        resolution: "Published incident reports and on-chain verified facts.",
+      },
+      "Risk",
+    ),
+  ).map((m) => ({ ...m, href: "/risk" })),
+];
+
+export function findAtlasMarket(slug: string): AtlasMarket | undefined {
+  return ATLAS.find((m) => m.slug === slug);
+}
+
 
 export interface EcosystemApp {
   to: string;
