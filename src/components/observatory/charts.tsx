@@ -94,7 +94,7 @@ export function DistributionField({
             strokeWidth="1"
             strokeDasharray="2 4"
           />
-          <text x={W - pad.right + 2} y={y(maxShare * f) - 4} className="fill-ink-faint" fontSize="9" fontFamily="var(--font-mono)">
+          <text x={W - pad.right - 6} y={y(maxShare * f) - 4} textAnchor="end" className="fill-ink-faint" fontSize="9" fontFamily="var(--font-mono)">
             {(maxShare * f * 100).toFixed(0)}%
           </text>
         </g>
@@ -179,7 +179,7 @@ export function CounterfactualScale({
           </g>
         );
       })}
-      <text x={W - padR} y={axisY - 8} textAnchor="end" className="fill-ink-faint" fontSize="10" fontFamily="var(--font-mono)">
+      <text x={padL} y={16} textAnchor="start" className="fill-ink-faint" fontSize="10" fontFamily="var(--font-mono)">
         {unit}
       </text>
 
@@ -193,7 +193,7 @@ export function CounterfactualScale({
       {/* pass marker */}
       <line x1={x(pass)} x2={x(pass)} y1={axisY} y2={84} className="stroke-violet-deep" strokeWidth="2" />
       <circle cx={x(pass)} cy={84} r="6" className="fill-violet-deep" />
-      <text x={x(pass)} y={110} textAnchor="middle" className="fill-violet-deep" fontSize="11" fontFamily="var(--font-mono)">
+      <text x={x(pass) - 12} y={88} textAnchor="end" className="fill-violet-deep" fontSize="11" fontFamily="var(--font-mono)">
         PASSES · {pass}
       </text>
 
