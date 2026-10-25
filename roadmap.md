@@ -29,7 +29,7 @@
 - [x] Verify selection, diagnosis, comparison, navigation and desktop/mobile layout
 
 ## Typography and interaction refinement
-- [ ] Apply Space Grotesk headings, Inter UI and IBM Plex Mono numerical indicators across existing layouts
-- [ ] Refine chart and control interactions across the six interfaces
-- [ ] Add uploaded Seer logo, matching background and derived favicon
-- [ ] Verify typography, core interactions and desktop/mobile layouts
+- [x] Apply Space Grotesk headings, Inter UI and IBM Plex Mono numerical indicators across existing layouts
+- [x] Refine chart and control interactions across the six interfaces
+- [x] Add uploaded Seer logo, matching background and derived favicon
+- [x] Verify typography, core interactions and desktop/mobile layouts — 18 tests pass, all six pages checked at 1280px and 320px without overflow
