@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { RISK_PROTOCOLS } from "@/data/seer";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/risk")({
+export const Route = createFileRoute("/riskometer")({
   head: () => ({ meta: [
     { title: "Riskometer — Market-implied risk thermometer by Seer" },
     { name: "description", content: "Explore Seer's Riskometer: protocol risk readings, uncertainty, diagnosis and comparison. All readings are illustrative, not security ratings." },

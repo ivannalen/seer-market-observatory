@@ -659,7 +659,7 @@ export const ATLAS: AtlasMarket[] = [
       },
       "Risk",
     ),
-  ).map((m) => ({ ...m, href: "/risk" })),
+  ).map((m) => ({ ...m, href: "/riskometer" })),
 ];
 
 export function findAtlasMarket(slug: string): AtlasMarket | undefined {
@@ -700,7 +700,7 @@ export const ECOSYSTEM_APPS: EcosystemApp[] = [
     orbit: 0.85, angle: 130,
   },
   {
-    to: "/risk", code: "05", name: "Risk", tag: "Risk pricing",
+    to: "/riskometer", code: "05", name: "Riskometer", tag: "Risk pricing",
     description: "Protocols on one comparative spectrum, with uncertainty ranges and the facts kept apart from estimates.",
     orbit: 0.55, angle: 168,
   },
