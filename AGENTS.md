@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep Riskometer presentation in focused observatory components and reuse RISK_PROTOCOLS as its read-only source; selection must never mutate a market estimate.
+- Riskometer history dates are explicit demo labels attached in a browser-safe presentation helper, not claims of live market timestamps.
