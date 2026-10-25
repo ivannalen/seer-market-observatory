@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 /*
  * Hand-rolled SVG instruments. Every figure encodes market structure —
@@ -13,18 +14,21 @@ export function Signature({
   height = 34,
   className,
   fillArea = true,
+  inspect = false,
 }: {
   data: number[];
   width?: number;
   height?: number;
   className?: string;
   fillArea?: boolean;
+  inspect?: boolean;
 }) {
+  const [inspected, setInspected] = useState<number | null>(null);
   const n = data.length;
   const min = Math.min(...data);
   const max = Math.max(...data);
   const span = Math.max(max - min, 0.04);
-  const x = (i: number) => (i / (n - 1)) * (width - 2) + 1;
+  const x = (i: number) => (i / Math.max(n - 1, 1)) * (width - 2) + 1;
   const y = (v: number) => height - 3 - ((v - min) / span) * (height - 6);
   const line = data.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
   const area = `${line} L${x(n - 1).toFixed(1)},${height} L${x(0).toFixed(1)},${height} Z`;
@@ -35,12 +39,30 @@ export function Signature({
       className={className}
       width={width}
       height={height}
-      aria-hidden="true"
-      focusable="false"
+      role="img"
+      aria-label="Illustrative market history"
+      tabIndex={inspect ? 0 : undefined}
+      onPointerMove={(event) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        setInspected(Math.max(0, Math.min(n - 1, Math.round((event.clientX - bounds.left) / bounds.width * (n - 1)))));
+      }}
+      onPointerLeave={() => setInspected(null)}
+      onFocus={() => setInspected(n - 1)}
+      onBlur={() => setInspected(null)}
+      onKeyDown={event => {
+        if (!inspect || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault();
+        setInspected(index => Math.max(0, Math.min(n - 1, (index ?? n - 1) + (event.key === "ArrowLeft" ? -1 : 1))));
+      }}
     >
       {fillArea ? <path d={area} className="fill-current opacity-[0.12]" /> : null}
       <path d={line} fill="none" stroke="currentColor" strokeWidth="1.5" />
       <circle cx={x(n - 1)} cy={y(data[n - 1] ?? 0)} r="2.2" className="fill-current" />
+      {inspected !== null && data[inspected] !== undefined && <g>
+        <line x1={x(inspected)} x2={x(inspected)} y1="0" y2={height} stroke="currentColor" strokeDasharray="2 3" opacity="0.5" />
+        <circle cx={x(inspected)} cy={y(data[inspected])} r="3" className="fill-current" />
+        <text x={Math.max(22, Math.min(width - 22, x(inspected)))} y={height / 2} textAnchor="middle" className="fill-current font-mono" fontSize={Math.min(12, height / 3)}>{(data[inspected] * 100).toFixed(1)}%</text>
+      </g>}
     </svg>
   );
 }
@@ -67,7 +89,7 @@ export function DistributionField({
   onSelect,
   height = 260,
 }: {
-  candidates: { id: string; share: number; band: [number, number] }[];
+  candidates: { id: string; name?: string; share: number; band: [number, number] }[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   height?: number;
@@ -111,8 +133,9 @@ export function DistributionField({
             key={c.id}
             role="option"
             aria-selected={selected}
+            aria-label={`${c.name ?? c.id}: ${(c.share * 100).toFixed(1)} percent`}
             tabIndex={0}
-            className="cursor-pointer outline-none"
+            className="chart-point cursor-pointer"
             onClick={() => onSelect(c.id)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
@@ -121,6 +144,9 @@ export function DistributionField({
               }
             }}
           >
+            <rect x={x(i) - step / 2} y={pad.top} width={step} height={H - pad.top} className="chart-hit" />
+            <circle cx={x(i)} cy={top} r="10" className="chart-focus-ring" />
+            {!selected && <text x={x(i)} y={top - 14} textAnchor="middle" className="chart-inspection fill-violet-deep font-mono" fontSize="11">{(c.share * 100).toFixed(1)}%</text>}
             {/* 90% uncertainty band */}
             <line x1={x(i)} x2={x(i)} y1={bandTop} y2={bandBottom} className={selected ? "stroke-violet" : "stroke-rule-ink"} strokeWidth="1" opacity={selected ? 0.9 : 0.5} />
             <line x1={x(i) - 5} x2={x(i) + 5} y1={bandTop} y2={bandTop} className={selected ? "stroke-violet" : "stroke-rule-ink"} strokeWidth="1" opacity={selected ? 0.9 : 0.5} />
@@ -185,14 +211,14 @@ export function CounterfactualScale({
 
       {/* fail marker */}
       <line x1={x(fail)} x2={x(fail)} y1={axisY} y2={52} className="stroke-ink-soft" strokeWidth="1.5" />
-      <circle cx={x(fail)} cy={52} r="5" className="fill-paper stroke-ink-soft" strokeWidth="2" />
+      <g tabIndex={0} className="chart-point" role="img" aria-label={`Proposal fails: ${fail} ${unit}`}><circle cx={x(fail)} cy={52} r="18" className="chart-hit" /><circle cx={x(fail)} cy={52} r="12" className="chart-focus-ring" /><circle cx={x(fail)} cy={52} r="5" className="fill-paper stroke-ink-soft" strokeWidth="2" /><title>Proposal fails: {fail} {unit}</title></g>
       <text x={x(fail)} y={34} textAnchor="middle" className="fill-ink-soft" fontSize="11" fontFamily="var(--font-mono)">
         FAILS · {fail}
       </text>
 
       {/* pass marker */}
       <line x1={x(pass)} x2={x(pass)} y1={axisY} y2={84} className="stroke-violet-deep" strokeWidth="2" />
-      <circle cx={x(pass)} cy={84} r="6" className="fill-violet-deep" />
+      <g tabIndex={0} className="chart-point" role="img" aria-label={`Proposal passs: ${pass} ${unit}`}><circle cx={x(pass)} cy={84} r="18" className="chart-hit" /><circle cx={x(pass)} cy={84} r="12" className="chart-focus-ring" /><circle cx={x(pass)} cy={84} r="6" className="fill-violet-deep" /><title>Proposal passs: {pass} {unit}</title></g>
       <text x={x(pass) - 12} y={88} textAnchor="end" className="fill-violet-deep" fontSize="11" fontFamily="var(--font-mono)">
         PASSES · {pass}
       </text>
@@ -251,10 +277,12 @@ export function FrontierChart({
   candidates,
   selectedIds,
   slots,
+  onSelect,
 }: {
-  candidates: { id: string; odds: number; score: number }[];
+  candidates: { id: string; name?: string; odds: number; score: number }[];
   selectedIds: string[];
   slots: number;
+  onSelect?: (id: string) => void;
 }) {
   const W = 720;
   const H = 420;
@@ -296,7 +324,12 @@ export function FrontierChart({
         const selected = selectedIds.includes(c.id);
         const inFrontier = frontier.some((f) => f.id === c.id);
         return (
-          <g key={c.id}>
+          <g key={c.id} className="chart-point cursor-pointer" tabIndex={0} role={onSelect ? "button" : "img"} aria-pressed={onSelect ? selected : undefined} aria-label={`${c.name ?? c.id}: ${Math.round(c.odds * 100)}% selection odds, reviewer score ${Math.round(c.score * 100)}${onSelect ? ", toggle shortlist" : ""}`} onClick={() => onSelect?.(c.id)} onKeyDown={event => {
+            if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect?.(c.id); }
+          }}>
+            <circle cx={x(c.score)} cy={y(c.odds)} r="18" className="chart-hit" />
+            <circle cx={x(c.score)} cy={y(c.odds)} r="12" className="chart-focus-ring" />
+            <text x={Math.max(95, Math.min(W - 95, x(c.score)))} y={y(c.odds) + 28} textAnchor="middle" className="chart-inspection fill-violet-deep font-sans" fontSize="12">{c.name ?? c.id} · {Math.round(c.odds * 100)}%</text>
             <circle
               cx={x(c.score)}
               cy={y(c.odds)}
