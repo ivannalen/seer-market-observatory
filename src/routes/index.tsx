@@ -41,7 +41,7 @@ const OUTPUTS = [
   { code: "T/02", label: "A distribution", to: "/deep", desc: "Many outcomes, one field. The whole shape is the answer." },
   { code: "T/03", label: "A comparison of worlds", to: "/futarchy", desc: "The same metric priced in the world where a proposal passes — and fails." },
   { code: "T/04", label: "A selection forecast", to: "/opportunity", desc: "Odds for every candidate against a fixed number of slots." },
-  { code: "T/05", label: "A risk estimate", to: "/risk", desc: "A probability of harm, with its uncertainty band drawn." },
+  { code: "T/05", label: "A risk estimate", to: "/riskometer", desc: "A probability of harm, with its uncertainty band drawn." },
 ];
 
 function Index() {

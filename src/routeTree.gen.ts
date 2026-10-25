@@ -14,7 +14,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as DeepRouteImport } from './routes/deep'
 import { Route as FutarchyRouteImport } from './routes/futarchy'
 import { Route as OpportunityRouteImport } from './routes/opportunity'
-import { Route as RiskRouteImport } from './routes/risk'
+import { Route as RiskometerRouteImport } from './routes/riskometer'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppSlugRouteImport } from './routes/app.$slug'
 
@@ -43,9 +43,9 @@ const OpportunityRoute = OpportunityRouteImport.update({
   path: '/opportunity',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RiskRoute = RiskRouteImport.update({
-  id: '/risk',
-  path: '/risk',
+const RiskometerRoute = RiskometerRouteImport.update({
+  id: '/riskometer',
+  path: '/riskometer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -65,7 +65,7 @@ export interface FileRoutesByFullPath {
   '/deep': typeof DeepRoute
   '/futarchy': typeof FutarchyRoute
   '/opportunity': typeof OpportunityRoute
-  '/risk': typeof RiskRoute
+  '/riskometer': typeof RiskometerRoute
   '/app/$slug': typeof AppSlugRoute
   '/app/': typeof AppIndexRoute
 }
@@ -74,7 +74,7 @@ export interface FileRoutesByTo {
   '/deep': typeof DeepRoute
   '/futarchy': typeof FutarchyRoute
   '/opportunity': typeof OpportunityRoute
-  '/risk': typeof RiskRoute
+  '/riskometer': typeof RiskometerRoute
   '/app/$slug': typeof AppSlugRoute
   '/app': typeof AppIndexRoute
 }
@@ -85,7 +85,7 @@ export interface FileRoutesById {
   '/deep': typeof DeepRoute
   '/futarchy': typeof FutarchyRoute
   '/opportunity': typeof OpportunityRoute
-  '/risk': typeof RiskRoute
+  '/riskometer': typeof RiskometerRoute
   '/app/$slug': typeof AppSlugRoute
   '/app/': typeof AppIndexRoute
 }
@@ -97,7 +97,7 @@ export interface FileRouteTypes {
     | '/deep'
     | '/futarchy'
     | '/opportunity'
-    | '/risk'
+    | '/riskometer'
     | '/app/$slug'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -106,7 +106,7 @@ export interface FileRouteTypes {
     | '/deep'
     | '/futarchy'
     | '/opportunity'
-    | '/risk'
+    | '/riskometer'
     | '/app/$slug'
     | '/app'
   id:
@@ -116,7 +116,7 @@ export interface FileRouteTypes {
     | '/deep'
     | '/futarchy'
     | '/opportunity'
-    | '/risk'
+    | '/riskometer'
     | '/app/$slug'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -127,7 +127,7 @@ export interface RootRouteChildren {
   DeepRoute: typeof DeepRoute
   FutarchyRoute: typeof FutarchyRoute
   OpportunityRoute: typeof OpportunityRoute
-  RiskRoute: typeof RiskRoute
+  RiskometerRoute: typeof RiskometerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -167,11 +167,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpportunityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/risk': {
-      id: '/risk'
-      path: '/risk'
-      fullPath: '/risk'
-      preLoaderRoute: typeof RiskRouteImport
+    '/riskometer': {
+      id: '/riskometer'
+      path: '/riskometer'
+      fullPath: '/riskometer'
+      preLoaderRoute: typeof RiskometerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -209,7 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   DeepRoute: DeepRoute,
   FutarchyRoute: FutarchyRoute,
   OpportunityRoute: OpportunityRoute,
-  RiskRoute: RiskRoute,
+  RiskometerRoute: RiskometerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

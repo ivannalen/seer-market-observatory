@@ -15,7 +15,7 @@ describe("App routing", () => {
     "/deep",
     "/futarchy",
     "/opportunity",
-    "/risk",
+    "/riskometer",
     "/app/us-recession-2026",
   ])("matches a page for %s instead of falling back to not found", (path) => {
     const matches = router.matchRoutes(path);

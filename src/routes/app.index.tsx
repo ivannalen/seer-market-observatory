@@ -259,7 +259,7 @@ function AtlasRow({ m, index }: { m: AtlasMarket; index: number }) {
           {inner}
         </Link>
       ) : (
-        <Link to={m.href as "/deep" | "/futarchy" | "/opportunity" | "/risk"} className={cls}>
+        <Link to={m.href as "/deep" | "/futarchy" | "/opportunity" | "/riskometer"} className={cls}>
           {inner}
         </Link>
       )}
