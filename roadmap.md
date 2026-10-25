@@ -19,4 +19,5 @@
 - [x] Market detail pages: WHO asks (seeker) + decision informed, WHAT is priced (existing), HOW to use the signal with uncertainty and limitations
 - [x] Two-sided marketplace framing on Home (seekers ↔ traders) and in the transformation figure copy
 - [x] Cross-links from each specialized application back into the universal atlas (pre-filtered)
+- [x] Verified round 2: build clean, 11 tests pass, zero console errors across all 8 URLs
 - [ ] Live Seer data integration (blocked: no reliable public feed in the prototype)
