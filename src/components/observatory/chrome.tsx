@@ -121,3 +121,27 @@ export function SiteFooter() {
     </footer>
   );
 }
+
+/* ============ Cross-link from a specialized application to the universal atlas ============ */
+
+export function AtlasCrossLink({ family, label, note }: { family: string; label: string; note: string }) {
+  return (
+    <section className="border-b border-rule bg-lavender-soft/60">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 py-10 sm:px-8">
+        <div className="max-w-xl">
+          <Eyebrow className="text-violet-deep">Also in the universal explorer</Eyebrow>
+          <p className="mt-2 font-display text-2xl text-ink">{label}</p>
+          <p className="mt-2 text-sm leading-relaxed text-ink-soft">{note}</p>
+        </div>
+        <Link
+          to="/app"
+          search={{ family }}
+          className="eyebrow inline-flex items-center gap-2 border border-ink bg-ink px-5 py-3 text-paper transition-colors hover:bg-violet-deep"
+        >
+          Open in the Seer App
+          <span aria-hidden="true">↗</span>
+        </Link>
+      </div>
+    </section>
+  );
+}

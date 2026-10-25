@@ -5,7 +5,10 @@ import { ObservatoryNav } from "@/components/observatory/nav";
 import { Eyebrow, SampleTag, SiteFooter } from "@/components/observatory/chrome";
 import { ProbBar, Signature } from "@/components/observatory/charts";
 import {
+  ATLAS,
   INSTRUMENT_LABEL,
+  INSIGHTS,
+  FALLBACK_INSIGHT,
   MARKETS,
   findMarket,
   fmtPct,
@@ -55,6 +58,8 @@ function MarketDetail() {
   }
 
   const m = market;
+  const insight = INSIGHTS[m.slug] ?? FALLBACK_INSIGHT;
+  const origin = ATLAS.find((a) => a.slug === m.slug)?.origin ?? "Atlas";
   const related = MARKETS.filter((x) => x.type === m.type && x.slug !== m.slug).slice(0, 3);
   const hi = Math.max(...m.history) * 100;
   const lo = Math.min(...m.history) * 100;
@@ -77,6 +82,7 @@ function MarketDetail() {
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
             <Eyebrow className="text-violet-deep">
               {INSTRUMENT_LABEL[m.type]} · {m.category}
+              {origin !== "Atlas" ? ` · ${origin} family` : ""}
             </Eyebrow>
             <SampleTag />
           </div>
@@ -175,6 +181,34 @@ function MarketDetail() {
             </div>
           </aside>
         </div>
+
+        {/* WHO / WHAT / HOW */}
+        <section className="mt-20 border-t border-ink pt-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <Eyebrow className="text-ink">From question to decision</Eyebrow>
+            <Eyebrow className="text-ink-faint">Sample framing · not live</Eyebrow>
+          </div>
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["WHO", "Who is asking", insight.seeker],
+              ["WHY", "The decision it informs", insight.decision],
+              ["HOW", "Using this signal", insight.signal],
+              ["BUT", "Limits of this reading", insight.limitations],
+            ].map(([code, head, body]) => (
+              <div key={code} className="border-t-2 border-violet-deep pt-4">
+                <Eyebrow className="text-violet-deep">{code}</Eyebrow>
+                <h3 className="mt-2 font-display text-xl text-ink">{head}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{body}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-10 max-w-3xl text-sm leading-relaxed text-ink-soft">
+            What this instrument prices: a {INSTRUMENT_LABEL[m.type].toLowerCase()}, currently reading{" "}
+            {fmtPct(m.p)}, resolving against “{m.resolution}.” The uncertainty around that reading
+            is drawn in the signature above — sharp movement means the field is contested, not that
+            the answer changed. This page is part of the prototype; every figure is sample data.
+          </p>
+        </section>
 
         {/* Related */}
         {related.length > 0 ? (
