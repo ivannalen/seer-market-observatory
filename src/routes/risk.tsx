@@ -51,7 +51,7 @@ export function RiskPage() {
       <ObservatoryNav />
       <main>
         <header className="mx-auto flex max-w-7xl flex-wrap items-start justify-between gap-4 px-4 pt-7 sm:px-8 sm:pt-9">
-          <div><h1 className="display text-4xl text-ink sm:text-5xl">Riskometer<span className="text-violet">.</span></h1><p className="mt-3 text-sm text-ink-soft">See how the market prices risk.</p></div>
+          <div><h1 className="display riskometer-wordmark text-4xl text-ink sm:text-5xl">RISKOMETER<span className="text-violet">.</span></h1><p className="mt-3 text-sm text-ink-soft">Market-implied risk, at a glance.</p></div>
           <div className="pt-1 text-right"><SampleTag /><p className="mt-2 text-xs text-ink-faint">An instrument by Seer</p></div>
         </header>
         <section aria-label="Riskometer instrument" className="riskometer-stage mx-auto grid max-w-5xl items-center px-4 sm:px-8 md:grid-cols-[1fr_1fr]">
@@ -70,7 +70,7 @@ export function RiskPage() {
             </Popover>
             <div aria-live="polite" aria-atomic="true" className="riskometer-reading mt-8">
               <Eyebrow className="text-ink-faint">Market-implied risk</Eyebrow>
-              <p className="mt-3 flex items-baseline gap-3"><span className="font-display text-8xl leading-none text-violet-deep">{protocol.estimate}</span><span className="figures text-ink-faint">/ 100</span></p>
+              <p className="mt-3 flex items-baseline gap-3"><span className="font-mono text-8xl leading-none tabular-nums text-violet-deep">{protocol.estimate}</span><span className="figures text-ink-faint">/ 100</span></p>
               <p className="mt-4 text-sm text-ink-soft">Uncertainty <span className="figures ml-2 text-ink">{protocol.range[0]}–{protocol.range[1]}</span></p>
               <p className="mt-2 text-xs text-ink-faint">{movement > 0 ? "+" : ""}{movement} pts · Jan–Dec 2025, illustrative</p>
             </div>

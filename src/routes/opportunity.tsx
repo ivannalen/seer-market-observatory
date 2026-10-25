@@ -7,6 +7,7 @@ import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/co
 import { FrontierChart, OddsStrip } from "@/components/observatory/charts";
 import { OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/opportunity")({
   head: () => ({
@@ -99,6 +100,7 @@ function OpportunityPage() {
             candidates={OPPORTUNITY_CANDIDATES}
             selectedIds={shortlist}
             slots={slots}
+            onSelect={toggle}
           />
 
           <aside className="space-y-8">
@@ -135,12 +137,12 @@ function OpportunityPage() {
                   Nothing shortlisted yet — mark candidates in the field below.
                 </p>
               )}
-              <button
+              <Button variant="ghost"
                 onClick={() => setShortlist([])}
                 className="eyebrow mt-4 inline-flex items-center gap-2 border border-rule px-3 py-1.5 text-ink-soft transition-colors hover:border-ink hover:text-ink"
               >
                 <RotateCcw className="h-3 w-3" /> Reset shortlist
-              </button>
+              </Button>
             </div>
 
             {/* Odds strip */}
@@ -196,7 +198,7 @@ function OpportunityPage() {
                     <span className="figures hidden text-right text-paper/60 sm:block">
                       {(c.score * 100).toFixed(0)} score
                     </span>
-                    <button
+                    <Button variant="ghost"
                       onClick={() => toggle(c.id)}
                       aria-pressed={marked}
                       className={cn(
@@ -207,7 +209,7 @@ function OpportunityPage() {
                       )}
                     >
                       {marked ? "Marked" : "Mark"}
-                    </button>
+                    </Button>
                   </div>
                 </li>
               );

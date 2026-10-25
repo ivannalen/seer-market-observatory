@@ -14,6 +14,7 @@ import {
   type InstrumentType,
 } from "@/data/seer";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/app/")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -135,7 +136,7 @@ function AtlasPage() {
 
           <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Filter by type">
             {TYPE_FILTERS.map((f) => (
-              <button
+              <Button variant="ghost"
                 key={f.key}
                 onClick={() => setType(f.key)}
                 aria-pressed={type === f.key}
@@ -147,11 +148,11 @@ function AtlasPage() {
                 )}
               >
                 {f.label}
-              </button>
+              </Button>
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Eyebrow className="text-ink-faint">Sort</Eyebrow>
             {(
               [
@@ -160,7 +161,7 @@ function AtlasPage() {
                 ["volume", "Volume"],
               ] as [SortKey, string][]
             ).map(([k, label]) => (
-              <button
+              <Button variant="ghost"
                 key={k}
                 onClick={() => setSort(k)}
                 aria-pressed={sort === k}
@@ -170,7 +171,7 @@ function AtlasPage() {
                 )}
               >
                 {label}
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -182,12 +183,12 @@ function AtlasPage() {
           <div className="border-t border-rule bg-lavender-soft/70">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-8">
               <Eyebrow className="text-violet-deep">{FAMILY_COPY[family]}</Eyebrow>
-              <button
+              <Button variant="ghost"
                 onClick={() => setType("all")}
                 className="eyebrow text-ink-soft underline-offset-2 hover:underline"
               >
                 Show every type
-              </button>
+              </Button>
             </div>
           </div>
         ) : null}
@@ -195,7 +196,7 @@ function AtlasPage() {
 
       {/* Table */}
       <main className="mx-auto max-w-7xl px-4 pb-24 sm:px-8">
-        <div className="hidden grid-cols-[2.5rem_1fr_8rem_7rem_10rem_5rem_5rem] gap-x-8 border-b border-ink py-3 sm:grid">
+        <div className="hidden grid-cols-[2.5rem_minmax(0,1fr)_6rem_6rem_7rem_5rem_5rem] gap-x-4 border-b border-ink py-3 lg:grid">
           {["#", "Instrument", "Family", "Type", "Signature", "Price", "Liquidity"].map((h, i) => (
             <Eyebrow key={h} className={cn(i >= 5 && "text-right", i === 3 && "text-right", "text-ink-faint")}>
               {h}
@@ -231,25 +232,25 @@ function AtlasPage() {
 function AtlasRow({ m, index }: { m: AtlasMarket; index: number }) {
   const inner = (
     <>
-      <span className="figures hidden text-ink-faint sm:block">{String(index + 1).padStart(2, "0")}</span>
+      <span className="figures hidden text-ink-faint lg:block">{String(index + 1).padStart(2, "0")}</span>
       <span className="min-w-0">
         <span className="block truncate text-[15px] text-ink group-hover:text-violet-deep sm:text-base">
           {m.question}
         </span>
-        <span className="eyebrow mt-0.5 block text-ink-faint sm:hidden">
+        <span className="eyebrow mt-0.5 block text-ink-faint lg:hidden">
           {m.origin} · {INSTRUMENT_LABEL[m.type]} · {fmtPct(m.p)}
         </span>
       </span>
-      <span className="eyebrow hidden text-ink-soft sm:block">{m.origin}</span>
-      <span className="eyebrow hidden text-right text-violet-deep sm:block">{INSTRUMENT_LABEL[m.type]}</span>
-      <Signature data={m.history} className="hidden h-8 w-24 text-violet-deep sm:block" fillArea={false} />
+      <span className="eyebrow hidden text-ink-soft lg:block">{m.origin}</span>
+      <span className="eyebrow hidden text-right text-violet-deep lg:block">{INSTRUMENT_LABEL[m.type]}</span>
+      <Signature data={m.history} className="hidden h-8 w-24 text-violet-deep lg:block" fillArea={false} />
       <span className="figures text-right text-ink">{fmtPct(m.p)}</span>
-      <span className="figures hidden text-right text-ink-soft sm:block">{fmtUsd(m.liquidity)}</span>
-      <ArrowUpRight className="h-4 w-4 text-ink-faint transition-colors group-hover:text-violet-deep sm:hidden" />
+      <span className="figures hidden text-right text-ink-soft lg:block">{fmtUsd(m.liquidity)}</span>
+      <ArrowUpRight className="h-4 w-4 text-ink-faint transition-colors group-hover:text-violet-deep lg:hidden" />
     </>
   );
   const cls =
-    "group grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 py-4 transition-colors hover:bg-lavender-soft/60 sm:grid-cols-[2.5rem_1fr_8rem_7rem_10rem_5rem_5rem] sm:gap-x-8";
+    "group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 py-4 transition-colors hover:bg-lavender-soft/60 lg:grid-cols-[2.5rem_minmax(0,1fr)_6rem_6rem_7rem_5rem_5rem] sm:gap-x-4";
 
   return (
     <li className="border-b border-rule">

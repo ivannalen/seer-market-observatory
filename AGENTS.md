@@ -12,3 +12,5 @@
 - Keep Riskometer presentation in focused observatory components and reuse RISK_PROTOCOLS as its read-only source; selection must never mutate a market estimate.
 - Riskometer history dates are explicit demo labels attached in a browser-safe presentation helper, not claims of live market timestamps.
 - Keep handheld power and display-mode state local to the Riskometer; device buttons change presentation or select protocols, never fabricate new readings.
+- Maintain typography through shared CSS tokens and bundled Fontsource stylesheets; this keeps all interfaces consistent and fonts reliable without external requests.
+- Use shared chart-point hit targets, focus rings and pointer/keyboard handlers for interactive SVG data points; charts and lists must act on the same selection state.

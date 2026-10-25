@@ -1,6 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { ECOSYSTEM_APPS } from "@/data/seer";
 import { cn } from "@/lib/utils";
+import seerLogo from "@/assets/seer-logo.jpg.asset.json";
 
 export function ObservatoryNav() {
   const pathname = useLocation().pathname;
@@ -11,7 +12,8 @@ export function ObservatoryNav() {
         aria-label="Primary"
         className="mx-auto flex max-w-7xl items-stretch justify-between gap-4 px-4 sm:px-8"
       >
-        <Link to="/" className="flex items-baseline gap-3 py-3">
+        <Link to="/" aria-label="Seer Observatory home" className="flex shrink-0 items-center gap-2 py-2">
+          <img src={seerLogo.url} alt="" width={36} height={36} className="size-9 rounded-sm object-contain" />
           <span className="display text-2xl leading-none text-ink">
             Seer<span className="text-violet">.</span>
           </span>
