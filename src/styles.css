@@ -8,14 +8,14 @@
  * THE OBSERVATORY — design system for the Seer ecosystem prototype.
  *
  * Light editorial paper canvas, deep-ink sections, restrained EF violet.
- * Instrument Serif for oversized editorial headlines, Instrument Sans for
+ * Space Grotesk for confident editorial headlines, Inter for
  * running text, IBM Plex Mono for compact data labels. Hairline rules
  * everywhere; sharp corners; charts as first-class content.
  */
 
 @theme inline {
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -63,17 +63,27 @@
 :root {
   --radius: 0.25rem;
 
-  --paper: oklch(0.982 0.006 92);
-  --ink: oklch(0.21 0.035 288);
-  --ink-soft: oklch(0.42 0.03 288);
-  --ink-faint: oklch(0.6 0.02 288);
-  --violet: oklch(0.54 0.2 293);
+  --paper: oklch(0.15 0.028 295);
+  --ink: oklch(0.96 0.008 296);
+  --ink-soft: oklch(0.8 0.022 296);
+  --ink-faint: oklch(0.69 0.024 296);
+  --violet: oklch(0.72 0.15 296);
+  --violet-deep: oklch(0.8 0.11 296);
+  --lavender: oklch(0.34 0.065 296);
+  --lavender-soft: oklch(0.21 0.033 295);
+  --rule: oklch(0.33 0.03 295);
+  --rule-ink: oklch(0.5 0.04 295);
+  --fact: oklch(0.78 0.1 80);
+}
+
+/* Existing inverse sections retain their original contrast relationships. */
+.bg-ink, .bg-violet-deep {
+  --paper: oklch(0.96 0.008 296);
+  --ink: oklch(0.19 0.028 295);
+  --ink-soft: oklch(0.42 0.03 295);
+  --ink-faint: oklch(0.6 0.02 295);
   --violet-deep: oklch(0.42 0.17 292);
   --lavender: oklch(0.9 0.05 296);
-  --lavender-soft: oklch(0.955 0.024 296);
-  --rule: oklch(0.89 0.012 288);
-  --rule-ink: oklch(0.32 0.03 288);
-  --fact: oklch(0.52 0.11 75);
 }
 
 .dark {
@@ -100,7 +110,16 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    letter-spacing: 0;
   }
+
+  h1, h2, h3, h4, .font-display { font-weight: 600; }
+  .display em { font-style: normal; font-weight: 500; }
+  a, button, summary { -webkit-tap-highlight-color: transparent; }
+  button, a { transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+  button:active:not(:disabled) { transform: translateY(1px); }
+  summary:hover { color: var(--ink); }
+  svg text { font-variant-numeric: tabular-nums; }
 
   ::selection {
     background-color: var(--lavender);
@@ -115,20 +134,27 @@
 
 /* Compact technical label used across every instrument. */
 @utility eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 
 /* Oversized editorial headline. */
 @utility display {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: 0;
 }
+
+.riskometer-wordmark { font-weight: 700; letter-spacing: 0; }
+.chart-point { outline: none; }
+.chart-hit { fill: transparent; }
+.chart-focus-ring { fill: none; stroke: var(--violet); stroke-width: 2; opacity: 0; }
+.chart-point:hover .chart-focus-ring, .chart-point:focus-visible .chart-focus-ring { opacity: 1; }
+.chart-inspection { opacity: 0; pointer-events: none; }
+.chart-point:hover .chart-inspection, .chart-point:focus-visible .chart-inspection { opacity: 1; }
 
 /* Tabular mono numerals for data columns. */
 @utility figures {
@@ -171,14 +197,14 @@
 .risk-device-brand { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding-right: 12px; }
 .risk-device-screen { display: flex; flex-direction: column; gap: 9px; width: 100%; height: 104px; padding: 10px 12px; border: 1px solid var(--violet); border-radius: 5px; background: var(--lavender-soft); color: var(--violet-deep); box-shadow: inset 0 0 0 3px var(--paper); }
 .risk-device-screen:hover { background: var(--lavender); }
-.risk-device-screen-top, .risk-device-screen-bottom { display: flex; justify-content: space-between; width: 100%; font-family: var(--font-mono); font-size: 8px; font-weight: 400; }
-.risk-device-digits { font-family: var(--font-mono); font-size: 38px; line-height: 1; font-weight: 500; animation: risk-readout 350ms ease both; }
+.risk-device-screen-top, .risk-device-screen-bottom { display: flex; justify-content: space-between; width: 100%; font-family: var(--font-sans); font-size: 10px; font-weight: 500; }
+.risk-device-digits { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 38px; line-height: 1; font-weight: 500; animation: risk-readout 350ms ease both; }
 .risk-device-unit { font-size: 12px; margin-left: 5px; color: var(--ink-faint); }
-.risk-device-screen-bottom { justify-content: center; font-size: 7px; }
+.risk-device-screen-bottom { justify-content: center; font-size: 9px; }
 .risk-device-buttons { display: flex; flex-direction: column; justify-content: center; gap: 9px; }
 .risk-device-power, .risk-device-mode { border: 1px solid var(--rule); border-radius: 50%; width: 36px; height: 36px; background: var(--lavender-soft); color: var(--ink-soft); box-shadow: 0 2px 0 var(--rule); }
 .risk-device-power[aria-pressed=true], .risk-device-mode[aria-pressed=true] { background: var(--violet-deep); color: var(--paper); border-color: var(--violet-deep); }
-.risk-device-footer { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 7px; font-family: var(--font-mono); font-size: 7px; color: var(--ink-faint); }
+.risk-device-footer { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 7px; font-family: var(--font-sans); font-size: 9px; color: var(--ink-faint); }
 .risk-device-led { width: 5px; height: 5px; border-radius: 50%; background: var(--rule-ink); }
 .risk-device-led[data-on=true] { background: var(--violet); }
 .risk-device[data-powered=false] .risk-device-screen { background: var(--paper); color: var(--ink-faint); opacity: 1; }
@@ -189,7 +215,7 @@
 .risk-thermometer svg { width: 100%; height: 560px; max-height: none; }
 .risk-thermometer:hover { filter: drop-shadow(0 4px 8px color-mix(in oklab, var(--violet) 10%, transparent)); }
 .risk-thermometer:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
-.risk-mercury { transition: y 450ms ease, height 450ms ease; }
+.risk-mercury { transition: x 450ms ease, width 450ms ease, y 450ms ease, height 450ms ease; }
 .risk-marker { transition: transform 450ms ease; }
 .riskometer-range-key { margin-top: 8px; }
 @media (max-width: 767px) {
