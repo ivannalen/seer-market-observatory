@@ -13,7 +13,7 @@ export function RiskHistory({ protocol }: { protocol: RiskProtocol }) {
       <svg viewBox="0 0 510 175" className="mt-3 w-full" role="img" aria-label={`${protocol.name} illustrative history from ${history[0]?.label} to ${history.at(-1)?.label}: ${history.map(h => `${h.label}: ${h.estimate}`).join(", ")}`}>
         {[0, 50, 100].map(v => <g key={v}><line x1="25" x2="475" y1={145 - v * 1.2} y2={145 - v * 1.2} className="stroke-rule" strokeDasharray="3 4" /><text x="503" y={149 - v * 1.2} textAnchor="end" className="fill-ink-faint font-mono text-[10px]">{v}</text></g>)}
         <path d={points} className="fill-none stroke-violet-deep" strokeWidth="2" />
-        {history.map((h, i) => <circle key={h.date} cx={25 + i * 450 / Math.max(history.length - 1, 1)} cy={145 - h.estimate * 1.2} r="3" className="fill-violet-deep"><title>{h.label}: {h.estimate}</title></circle>)}
+        {history.map((h, i) => <circle key={h.date} cx={25 + i * 450 / Math.max(history.length - 1, 1)} cy={145 - h.estimate * 1.2} r="3" className="fill-violet-deep"><title>{`${h.label}: ${h.estimate}`}</title></circle>)}
         <text x="25" y="170" className="fill-ink-faint font-mono text-[11px]">Jan 2025</text><text x="475" y="170" textAnchor="end" className="fill-ink-faint font-mono text-[11px]">Dec 2025</text>
       </svg>
       <details className="mt-2 text-sm text-ink-soft"><summary className="cursor-pointer text-violet-deep">Monthly readings</summary><dl className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">{history.map(h => <div key={h.date}><dt className="text-xs">{h.label}</dt><dd className="figures text-ink">{h.estimate}</dd></div>)}</dl></details>
