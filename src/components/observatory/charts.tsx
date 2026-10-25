@@ -211,14 +211,14 @@ export function CounterfactualScale({
 
       {/* fail marker */}
       <line x1={x(fail)} x2={x(fail)} y1={axisY} y2={52} className="stroke-ink-soft" strokeWidth="1.5" />
-      <g tabIndex={0} className="chart-point" role="img" aria-label={`Proposal fails: ${fail} ${unit}`}><circle cx={x(fail)} cy={52} r="18" className="chart-hit" /><circle cx={x(fail)} cy={52} r="12" className="chart-focus-ring" /><circle cx={x(fail)} cy={52} r="5" className="fill-paper stroke-ink-soft" strokeWidth="2" /><title>Proposal fails: {fail} {unit}</title></g>
+      <g tabIndex={0} className="chart-point" role="img" aria-label={`Proposal fails: ${fail} ${unit}`}><circle cx={x(fail)} cy={52} r="18" className="chart-hit" /><circle cx={x(fail)} cy={52} r="12" className="chart-focus-ring" /><circle cx={x(fail)} cy={52} r="5" className="fill-paper stroke-ink-soft" strokeWidth="2" /><title>{`Proposal fails: ${fail} ${unit}`}</title></g>
       <text x={x(fail)} y={34} textAnchor="middle" className="fill-ink-soft" fontSize="11" fontFamily="var(--font-mono)">
         FAILS · {fail}
       </text>
 
       {/* pass marker */}
       <line x1={x(pass)} x2={x(pass)} y1={axisY} y2={84} className="stroke-violet-deep" strokeWidth="2" />
-      <g tabIndex={0} className="chart-point" role="img" aria-label={`Proposal passs: ${pass} ${unit}`}><circle cx={x(pass)} cy={84} r="18" className="chart-hit" /><circle cx={x(pass)} cy={84} r="12" className="chart-focus-ring" /><circle cx={x(pass)} cy={84} r="6" className="fill-violet-deep" /><title>Proposal passs: {pass} {unit}</title></g>
+      <g tabIndex={0} className="chart-point" role="img" aria-label={`Proposal passes: ${pass} ${unit}`}><circle cx={x(pass)} cy={84} r="18" className="chart-hit" /><circle cx={x(pass)} cy={84} r="12" className="chart-focus-ring" /><circle cx={x(pass)} cy={84} r="6" className="fill-violet-deep" /><title>{`Proposal passes: ${pass} ${unit}`}</title></g>
       <text x={x(pass) - 12} y={88} textAnchor="end" className="fill-violet-deep" fontSize="11" fontFamily="var(--font-mono)">
         PASSES · {pass}
       </text>

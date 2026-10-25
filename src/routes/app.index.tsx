@@ -152,7 +152,7 @@ function AtlasPage() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Eyebrow className="text-ink-faint">Sort</Eyebrow>
             {(
               [
@@ -196,7 +196,7 @@ function AtlasPage() {
 
       {/* Table */}
       <main className="mx-auto max-w-7xl px-4 pb-24 sm:px-8">
-        <div className="hidden grid-cols-[2.5rem_1fr_8rem_7rem_10rem_5rem_5rem] gap-x-4 border-b border-ink py-3 lg:grid">
+        <div className="hidden grid-cols-[2.5rem_minmax(0,1fr)_6rem_6rem_7rem_5rem_5rem] gap-x-4 border-b border-ink py-3 lg:grid">
           {["#", "Instrument", "Family", "Type", "Signature", "Price", "Liquidity"].map((h, i) => (
             <Eyebrow key={h} className={cn(i >= 5 && "text-right", i === 3 && "text-right", "text-ink-faint")}>
               {h}
