@@ -7,7 +7,7 @@ export function RiskThermometer({ protocol, onExplore, expanded }: { protocol: R
     <Button variant="ghost" onClick={onExplore} aria-expanded={expanded} aria-controls="risk-diagnosis"
       aria-label={`Explore ${protocol.name} diagnosis: estimate ${protocol.estimate} out of 100, uncertainty ${protocol.range[0]} to ${protocol.range[1]}`}
       className="risk-thermometer group h-auto w-full rounded-none p-0 hover:bg-transparent">
-      <svg viewBox="0 0 380 560" className="h-full w-full overflow-visible" aria-hidden="true">
+      <svg viewBox="35 20 290 540" className="h-full w-full overflow-visible" aria-hidden="true">
         <text x="105" y="35" className="fill-ink-faint font-mono text-[11px]" textAnchor="end">MORE RISK</text>
         {Array.from({ length: 21 }, (_, i) => i * 5).map((value) => (
           <g key={value}>

@@ -23,7 +23,7 @@
 - [ ] Live Seer data integration (blocked: no reliable public feed in the prototype)
 
 ## Riskometer refinement
-- [ ] Instrument-first /risk with searchable protocol selection and accessible thermometer
-- [ ] Progressive diagnosis with honest provenance, uncertainty and dated demo history
-- [ ] Optional compact protocol comparison
-- [ ] Verify selection, diagnosis, comparison, navigation and desktop/mobile layout
+- [x] Instrument-first /risk with searchable protocol selection and accessible thermometer
+- [x] Progressive diagnosis with honest provenance, uncertainty and dated demo history
+- [x] Optional compact protocol comparison
+- [x] Verify selection, diagnosis, comparison, navigation and desktop/mobile layout
