@@ -15,6 +15,7 @@ import { Route as DeepRouteImport } from './routes/deep'
 import { Route as FutarchyRouteImport } from './routes/futarchy'
 import { Route as OpportunityRouteImport } from './routes/opportunity'
 import { Route as RiskRouteImport } from './routes/risk'
+import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppSlugRouteImport } from './routes/app.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const RiskRoute = RiskRouteImport.update({
   path: '/risk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSlugRoute = AppSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -61,15 +67,16 @@ export interface FileRoutesByFullPath {
   '/opportunity': typeof OpportunityRoute
   '/risk': typeof RiskRoute
   '/app/$slug': typeof AppSlugRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
   '/deep': typeof DeepRoute
   '/futarchy': typeof FutarchyRoute
   '/opportunity': typeof OpportunityRoute
   '/risk': typeof RiskRoute
   '/app/$slug': typeof AppSlugRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +87,7 @@ export interface FileRoutesById {
   '/opportunity': typeof OpportunityRoute
   '/risk': typeof RiskRoute
   '/app/$slug': typeof AppSlugRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,15 +99,16 @@ export interface FileRouteTypes {
     | '/opportunity'
     | '/risk'
     | '/app/$slug'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/deep'
     | '/futarchy'
     | '/opportunity'
     | '/risk'
     | '/app/$slug'
+    | '/app'
   id:
     | '__root__'
     | '/'
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/opportunity'
     | '/risk'
     | '/app/$slug'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -164,6 +174,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/$slug': {
       id: '/app/$slug'
       path: '/$slug'
@@ -176,10 +193,12 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppSlugRoute: typeof AppSlugRoute
+  AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppSlugRoute: AppSlugRoute,
+  AppIndexRoute: AppIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
