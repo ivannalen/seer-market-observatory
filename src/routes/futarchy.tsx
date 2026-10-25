@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
-import { Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
+import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
 import { CounterfactualScale } from "@/components/observatory/charts";
 import { FUTARCHY_NOTE, FUTARCHY_PROPOSALS } from "@/data/seer";
 import { cn } from "@/lib/utils";
@@ -190,6 +190,12 @@ function FutarchyPage() {
           </div>
         </div>
       </section>
+
+      <AtlasCrossLink
+        family="futarchy"
+        label="Every conditional case, in the universal explorer"
+        note="These counterfactual comparisons are individual markets in the atlas too. Open the Seer App to search all decision cases alongside every other instrument type."
+      />
 
       <SiteFooter />
     </div>

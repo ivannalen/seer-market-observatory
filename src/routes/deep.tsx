@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
-import { Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
+import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
 import { DistributionField, ForecastTriple } from "@/components/observatory/charts";
 import { DEEP_CANDIDATES, DEEP_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
@@ -181,6 +181,12 @@ function DeepPage() {
           </p>
         </div>
       </section>
+
+      <AtlasCrossLink
+        family="deep"
+        label="Every possibility field, in the universal explorer"
+        note="This grant-evaluation field is one of the many-outcome markets priced across the protocol. Open the Seer App to search it alongside every other instrument type."
+      />
 
       <SiteFooter />
     </div>

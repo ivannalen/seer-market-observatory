@@ -60,10 +60,11 @@ function Index() {
               <em className="text-violet-deep">possible.</em>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">
-              Seer is an instrument for examining possible futures. A question enters the
-              protocol — any question with a verifiable answer — and comes out as a price, a
-              distribution, a comparison between possible worlds, a selection forecast, or a
-              risk estimate. The Observatory shows the whole instrument at work.
+              Seer is an instrument for examining possible futures — and a two-sided marketplace.
+              Information seekers need answers they can act on; traders put capital behind their
+              forecasts and earn for accuracy. A question enters the protocol and comes out as a
+              price, a distribution, a comparison between possible worlds, a selection forecast, or
+              a risk estimate. The Observatory shows the whole instrument at work.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
@@ -140,12 +141,72 @@ function Index() {
         </div>
       </section>
 
+      {/* ============ Two sides, one instrument ============ */}
+      <section className="border-b border-rule bg-lavender-soft/60">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
+          <SectionHead
+            index="02"
+            title="Two sides, one instrument"
+            lead="Seer is a two-sided marketplace. Information seekers need answers they can act on. Traders put capital behind their forecasts and earn for accuracy. The price is the exact point where the two sides meet — useful to one, profitable to the other."
+          />
+          <div className="mt-12 grid gap-6 lg:grid-cols-2 lg:gap-0">
+            <div className="border border-rule bg-paper p-8 lg:border-r-0">
+              <Eyebrow className="text-violet-deep">Side A — Information seekers</Eyebrow>
+              <h3 className="display mt-3 text-3xl text-ink">They need the answer.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                DAOs weighing a proposal, treasuries hedging a window, program committees reading
+                their own shortlist, risk teams sizing exposure. They commission or adopt an
+                instrument because its output — one honest number, distribution, or comparison —
+                feeds a decision they must make.
+              </p>
+              <ul className="mt-6 space-y-2 border-t border-rule pt-4">
+                {[
+                  "Bring the question and its resolution rule",
+                  "Read the price, band, and drift",
+                  "Act on the reading — the market never decides",
+                ].map((t) => (
+                  <li key={t} className="flex gap-3 text-sm text-ink-soft">
+                    <span className="figures shrink-0 text-violet-deep">→</span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="border border-rule bg-paper p-8">
+              <Eyebrow className="text-violet-deep">Side B — Traders</Eyebrow>
+              <h3 className="display mt-3 text-3xl text-ink">They price the question.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                Traders who disagree put weight behind their reading. Every position moves the
+                price toward the best available information — and every accurate trader earns for
+                moving it. Their profit is the seeker's signal quality.
+              </p>
+              <ul className="mt-6 space-y-2 border-t border-rule pt-4">
+                {[
+                  "Bring capital and conviction",
+                  "Buy under-priced outcomes, sell over-priced ones",
+                  "Earn accuracy — liquidity is the service",
+                ].map((t) => (
+                  <li key={t} className="flex gap-3 text-sm text-ink-soft">
+                    <span className="figures shrink-0 text-violet-deep">→</span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <p className="display mx-auto mt-12 max-w-3xl text-center text-2xl leading-snug text-ink sm:text-3xl">
+            “Seekers ask. Traders stake. The instrument pays both — with a reading{" "}
+            <em className="text-violet-deep">anyone can audit.</em>”
+          </p>
+        </div>
+      </section>
+
       {/* ============ Featured instruments ============ */}
       <section className="bg-lavender-soft/60">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-rule pb-6">
             <div>
-              <Eyebrow className="text-ink-faint">§ 02 — On the bench</Eyebrow>
+              <Eyebrow className="text-ink-faint">§ 03 — On the bench</Eyebrow>
               <h2 className="display mt-3 text-4xl text-ink sm:text-5xl">Featured instruments</h2>
             </div>
             <div className="flex items-center gap-3">

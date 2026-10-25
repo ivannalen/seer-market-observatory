@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { RotateCcw } from "lucide-react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
-import { Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
+import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
 import { FrontierChart, OddsStrip } from "@/components/observatory/charts";
 import { OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
@@ -220,6 +220,12 @@ function OpportunityPage() {
           </p>
         </div>
       </section>
+
+      <AtlasCrossLink
+        family="opportunity"
+        label="Every selection field, in the universal explorer"
+        note="Candidate fields like this one are priced as ordinary markets too. Open the Seer App to search all selection forecasts alongside every other instrument type."
+      />
 
       <SiteFooter />
     </div>

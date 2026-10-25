@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
-import { Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
+import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
 import { RiskTrack, Signature } from "@/components/observatory/charts";
 import { RISK_NOTE, RISK_PROTOCOLS } from "@/data/seer";
 import { cn } from "@/lib/utils";
@@ -178,6 +178,12 @@ function RiskPage() {
           </p>
         </div>
       </section>
+
+      <AtlasCrossLink
+        family="risk"
+        label="Every risk estimate, in the universal explorer"
+        note="Protocol-level instruments like these sit in the atlas beside every other market type. Open the Seer App to search the full risk spectrum and beyond."
+      />
 
       <SiteFooter />
     </div>
