@@ -327,8 +327,9 @@ function TransformationFigure() {
 /* ============ Constellation section ============ */
 
 function ConstellationSection() {
-  const [active, setActive] = useState(ECOSYSTEM_APPS[0].code);
+  const [active, setActive] = useState(ECOSYSTEM_APPS[0]?.code ?? "01");
   const current = ECOSYSTEM_APPS.find((a) => a.code === active) ?? ECOSYSTEM_APPS[0];
+  if (!current) return null;
 
   const pos = (a: (typeof ECOSYSTEM_APPS)[number]) => {
     const r = 46 * a.orbit;
