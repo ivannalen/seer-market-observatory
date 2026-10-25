@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as DeepRouteImport } from './routes/deep'
+import { Route as FutarchyRouteImport } from './routes/futarchy'
+import { Route as OpportunityRouteImport } from './routes/opportunity'
 import { Route as AppSlugRouteImport } from './routes/app.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +31,16 @@ const DeepRoute = DeepRouteImport.update({
   path: '/deep',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FutarchyRoute = FutarchyRouteImport.update({
+  id: '/futarchy',
+  path: '/futarchy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpportunityRoute = OpportunityRouteImport.update({
+  id: '/opportunity',
+  path: '/opportunity',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppSlugRoute = AppSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -39,12 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/deep': typeof DeepRoute
+  '/futarchy': typeof FutarchyRoute
+  '/opportunity': typeof OpportunityRoute
   '/app/$slug': typeof AppSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/deep': typeof DeepRoute
+  '/futarchy': typeof FutarchyRoute
+  '/opportunity': typeof OpportunityRoute
   '/app/$slug': typeof AppSlugRoute
 }
 export interface FileRoutesById {
@@ -52,20 +68,32 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/deep': typeof DeepRoute
+  '/futarchy': typeof FutarchyRoute
+  '/opportunity': typeof OpportunityRoute
   '/app/$slug': typeof AppSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/deep' | '/app/$slug'
+  fullPaths:
+    '/' | '/app' | '/deep' | '/futarchy' | '/opportunity' | '/app/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/deep' | '/app/$slug'
-  id: '__root__' | '/' | '/app' | '/deep' | '/app/$slug'
+  to: '/' | '/app' | '/deep' | '/futarchy' | '/opportunity' | '/app/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/deep'
+    | '/futarchy'
+    | '/opportunity'
+    | '/app/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   DeepRoute: typeof DeepRoute
+  FutarchyRoute: typeof FutarchyRoute
+  OpportunityRoute: typeof OpportunityRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -89,6 +117,20 @@ declare module '@tanstack/react-router' {
       path: '/deep'
       fullPath: '/deep'
       preLoaderRoute: typeof DeepRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/futarchy': {
+      id: '/futarchy'
+      path: '/futarchy'
+      fullPath: '/futarchy'
+      preLoaderRoute: typeof FutarchyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/opportunity': {
+      id: '/opportunity'
+      path: '/opportunity'
+      fullPath: '/opportunity'
+      preLoaderRoute: typeof OpportunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/$slug': {
@@ -115,6 +157,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   DeepRoute: DeepRoute,
+  FutarchyRoute: FutarchyRoute,
+  OpportunityRoute: OpportunityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

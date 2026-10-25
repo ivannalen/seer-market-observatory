@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
-import { Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/charts_placeholder";
+import { Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
 import { CounterfactualScale } from "@/components/observatory/charts";
 import { FUTARCHY_NOTE, FUTARCHY_PROPOSALS } from "@/data/seer";
 import { cn } from "@/lib/utils";
