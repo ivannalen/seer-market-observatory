@@ -40,6 +40,11 @@ export function RiskPage() {
     requestAnimationFrame(() => document.getElementById("risk-diagnosis")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" }));
   };
   const toggleComparison = (id: string) => setComparisonIds(ids => ids.includes(id) ? ids.filter(value => value !== id) : [...ids, id]);
+  const stepProtocol = (direction: number) => {
+    const index = RISK_PROTOCOLS.findIndex(p => p.id === selectedId);
+    const next = RISK_PROTOCOLS[(index + direction + RISK_PROTOCOLS.length) % RISK_PROTOCOLS.length];
+    if (next) setSelectedId(next.id);
+  };
 
   return (
     <div className="min-h-screen bg-paper">
@@ -75,7 +80,7 @@ export function RiskPage() {
             </div>
           </div>
           <div className="riskometer-visual relative min-w-0">
-            <RiskThermometer protocol={protocol} onExplore={revealDiagnosis} expanded={diagnosisOpen} />
+            <RiskThermometer protocol={protocol} onExplore={revealDiagnosis} expanded={diagnosisOpen} onPrevious={() => stepProtocol(-1)} onNext={() => stepProtocol(1)} />
             <div className="riskometer-range-key flex items-center justify-center gap-2 text-xs text-ink-faint"><span className="h-3 w-5 border border-dashed border-violet bg-lavender" />Uncertainty range</div>
           </div>
         </section>
