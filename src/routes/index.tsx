@@ -9,7 +9,6 @@ import {
   ECOSYSTEM_APPS,
   FEATURED_SLUGS,
   INSTRUMENT_LABEL,
-  MARKETS,
   findMarket,
   fmtPct,
   fmtUsd,
