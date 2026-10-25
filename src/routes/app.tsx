@@ -15,7 +15,7 @@ import {
 } from "@/data/seer";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/app/")({
+export const Route = createFileRoute("/app")({
   head: () => ({
     meta: [
       { title: "Market Atlas — Seer Observatory" },
