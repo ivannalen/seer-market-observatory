@@ -198,6 +198,9 @@
   .risk-device-body { padding: 16px 18px 14px 14px; gap: 10px; }
   .risk-device-digits { font-size: 34px; }
   .riskometer-controls { padding-bottom: 14px; }
+  .riskometer-reading { margin-top: 16px; }
+  .riskometer-reading > .eyebrow, .riskometer-reading > p:first-of-type, .riskometer-reading > p:last-of-type { display: none; }
+  .riskometer-reading > p { margin-top: 0; }
   .riskometer-controls .font-display { font-size: 27px; }
   .riskometer-reading .font-display { font-size: 64px; }
   .riskometer-controls .eyebrow { font-size: 9px; letter-spacing: 0; }
