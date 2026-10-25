@@ -30,7 +30,9 @@ export const Route = createFileRoute("/futarchy")({
 
 function FutarchyPage() {
   const [activeId, setActiveId] = useState(FUTARCHY_PROPOSALS[0].id);
-  const p = FUTARCHY_PROPOSALS.find((x) => x.id === activeId) ?? FUTARCHY_PROPOSALS[0];
+  const found = FUTARCHY_PROPOSALS.find((x) => x.id === activeId);
+  const p = found ?? FUTARCHY_PROPOSALS[0];
+  if (!p) return null;
   const max = Math.max(p.pass, p.fail) * 1.15;
   const histMax = Math.max(...p.history.flatMap((h) => [h.pass, h.fail])) * 1.15;
   const delta = p.pass - p.fail;

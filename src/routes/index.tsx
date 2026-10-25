@@ -69,6 +69,7 @@ function Index() {
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
                 to="/app"
+                search={{}}
                 className="eyebrow inline-flex items-center gap-2 bg-ink px-5 py-3 text-paper transition-colors hover:bg-violet-deep"
               >
                 Open the atlas <ArrowUpRight className="h-3.5 w-3.5" />
@@ -213,6 +214,7 @@ function Index() {
               <SampleTag />
               <Link
                 to="/app"
+                search={{}}
                 className="eyebrow inline-flex items-center gap-1.5 border-b border-ink pb-0.5 text-ink transition-colors hover:text-violet-deep"
               >
                 Full atlas <ArrowUpRight className="h-3 w-3" />
