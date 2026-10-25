@@ -27,3 +27,9 @@
 - [x] Progressive diagnosis with honest provenance, uncertainty and dated demo history
 - [x] Optional compact protocol comparison
 - [x] Verify selection, diagnosis, comparison, navigation and desktop/mobile layout
+
+## Typography and interaction refinement
+- [ ] Apply Space Grotesk headings, Inter UI and IBM Plex Mono numerical indicators across existing layouts
+- [ ] Refine chart and control interactions across the six interfaces
+- [ ] Add uploaded Seer logo, matching background and derived favicon
+- [ ] Verify typography, core interactions and desktop/mobile layouts
