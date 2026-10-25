@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import { useState } from "react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
 import { Eyebrow, SampleTag, SiteFooter } from "@/components/observatory/chrome";
@@ -143,7 +144,7 @@ function MarketDetail() {
           <aside className="space-y-10">
             <div className="border border-ink p-6">
               <Eyebrow className="text-ink-faint">Headline figure</Eyebrow>
-              <p className="display mt-2 text-6xl text-ink">
+              <p className="mt-2 font-mono text-6xl tabular-nums text-ink">
                 {fmtPct(m.p)}
                 {m.type === "selection" ? (
                   <span className="ml-2 text-xl text-ink-faint">leading odds</span>
@@ -155,7 +156,7 @@ function MarketDetail() {
                   <span className="ml-2 text-xl text-ink-faint">YES worlds</span>
                 )}
               </p>
-              <Signature data={m.history} width={260} height={56} className="mt-6 w-full text-violet-deep" />
+              <Signature inspect data={m.history} width={260} height={56} className="mt-6 w-full text-violet-deep" />
             </div>
 
             <div>
@@ -246,6 +247,7 @@ function MarketDetail() {
 
 /* Full-width signature with axis annotations. */
 function SignatureChart({ history }: { history: number[] }) {
+  const [inspected, setInspected] = useState<number | null>(null);
   const W = 720;
   const H = 300;
   const pad = { t: 20, b: 34, l: 44, r: 16 };
@@ -274,6 +276,11 @@ function SignatureChart({ history }: { history: number[] }) {
       })}
       <path d={area} className="fill-violet opacity-15" />
       <path d={line} fill="none" className="stroke-violet-deep" strokeWidth="2" />
+      {history.map((value, index) => <g key={index} className="chart-point" tabIndex={0} role="img" aria-label={`Demo reading ${index + 1}: ${(value * 100).toFixed(1)} percent`} onPointerEnter={() => setInspected(index)} onPointerLeave={() => setInspected(null)} onFocus={() => setInspected(index)} onBlur={() => setInspected(null)}>
+        <circle cx={x(index)} cy={y(value)} r="14" className="chart-hit" />
+        <circle cx={x(index)} cy={y(value)} r="8" className="chart-focus-ring" />
+        {inspected === index && <g><line x1={x(index)} x2={x(index)} y1={pad.t} y2={H - pad.b} className="stroke-violet" strokeDasharray="3 3" /><text x={Math.max(100, Math.min(W - 90, x(index)))} y={Math.max(16, y(value) - 15)} textAnchor="middle" className="fill-violet-deep font-mono" fontSize="12">#{index + 1} · {(value * 100).toFixed(1)}%</text></g>}
+      </g>)}
       <circle cx={x(history.length - 1)} cy={y(last)} r="4" className="fill-violet-deep" />
       <text x={x(history.length - 1) - 8} y={y(last) - 12} textAnchor="end" className="fill-violet-deep" fontSize="12" fontFamily="var(--font-mono)">
         {(last * 100).toFixed(0)}%
