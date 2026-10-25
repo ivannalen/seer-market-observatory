@@ -1,190 +1,102 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-
+import { ArrowDown, ArrowUpRight, Check, ChevronDown, GitCompareArrows, Search, X } from "lucide-react";
 import { ObservatoryNav } from "@/components/observatory/nav";
-import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/components/observatory/chrome";
-import { RiskTrack, Signature } from "@/components/observatory/charts";
-import { RISK_NOTE, RISK_PROTOCOLS } from "@/data/seer";
+import { Eyebrow, SampleTag, SiteFooter } from "@/components/observatory/chrome";
+import { RiskThermometer } from "@/components/observatory/risk-thermometer";
+import { RiskDiagnosis, RiskComparisonRow } from "@/components/observatory/risk-diagnosis";
+import { searchRiskProtocols, riskMovement } from "@/components/observatory/riskometer-data";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { RISK_PROTOCOLS } from "@/data/seer";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/risk")({
-  head: () => ({
-    meta: [
-      { title: "Risk Pricing — Comparative Spectrum — Seer Observatory" },
-      {
-        name: "description",
-        content:
-          "Protocols on one comparative risk spectrum, with uncertainty ranges, risk history, and verified facts kept apart from market estimates. Estimates are not guarantees.",
-      },
-      { property: "og:title", content: "Risk Pricing — Seer Observatory" },
-      {
-        property: "og:description",
-        content: "One comparative spectrum, uncertainty drawn, facts separated from estimates.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => ({ meta: [
+    { title: "Riskometer — Market-implied risk thermometer by Seer" },
+    { name: "description", content: "Explore Seer's Riskometer: protocol risk readings, uncertainty, diagnosis and comparison. All readings are illustrative, not security ratings." },
+    { property: "og:title", content: "Riskometer — Seer Observatory" },
+    { property: "og:description", content: "See how the market prices risk. An interactive thermometer with illustrative protocol readings and uncertainty." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: RiskPage,
 });
 
-function RiskPage() {
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const sorted = [...RISK_PROTOCOLS].sort((a, b) => a.estimate - b.estimate);
+export function RiskPage() {
+  const [selectedId, setSelectedId] = useState("r1");
+  const [selectorOpen, setSelectorOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [diagnosisOpen, setDiagnosisOpen] = useState(false);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [comparisonIds, setComparisonIds] = useState<string[]>(["r1", "r2"]);
+  const protocol = RISK_PROTOCOLS.find(p => p.id === selectedId);
+  if (!protocol) return null;
+  const matches = searchRiskProtocols(RISK_PROTOCOLS, query);
+  const movement = riskMovement(protocol);
+  const revealDiagnosis = () => {
+    setDiagnosisOpen(true);
+    requestAnimationFrame(() => document.getElementById("risk-diagnosis")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" }));
+  };
+  const toggleComparison = (id: string) => setComparisonIds(ids => ids.includes(id) ? ids.filter(value => value !== id) : [...ids, id]);
 
   return (
     <div className="min-h-screen bg-paper">
       <ObservatoryNav />
-
-      <PageHeader
-        code="05"
-        name="Risk"
-        title="Every protocol, placed on one honest spectrum"
-        accent="uncertainty is part of the reading."
-        intro="Risk instruments put unlike protocols on a common scale — an exchange next to a bridge next to a lending pool — and draw how wide the market's uncertainty really is."
-        meta={<SampleTag />}
-      />
-
-      {/* Standing note */}
-      <div className="border-b border-rule bg-violet-deep text-paper">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 sm:px-8">
-          <Eyebrow className="text-paper/70">Standing note</Eyebrow>
-          <p className="text-sm text-paper">{RISK_NOTE}</p>
-        </div>
-      </div>
-
-      {/* Spectrum */}
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-3">
-          <Eyebrow className="text-ink">Fig. 1 — Comparative risk spectrum, sample estimates</Eyebrow>
-          <Eyebrow className="text-ink-faint">0 — calmer · 100 — more risk</Eyebrow>
-        </div>
-        <p className="mt-3 max-w-2xl text-sm text-ink-soft">
-          The violet band is the market's uncertainty range; the dot is its point estimate. All
-          protocol names are illustrative. Hover or focus a row to isolate it.
-        </p>
-
-        <div className="mt-8 space-y-1">
-          {sorted.map((p) => (
-            <div
-              key={p.id}
-              onMouseEnter={() => setActiveId(p.id)}
-              onMouseLeave={() => setActiveId(null)}
-              className="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 border-b border-rule py-2 sm:grid-cols-[10rem_11rem_1fr] sm:border-b-0 sm:border-b sm:border-rule"
-            >
-              <div className="min-w-0">
-                <p className="truncate text-[15px] text-ink">{p.name}</p>
-                <Eyebrow className="text-ink-faint">{p.category}</Eyebrow>
-              </div>
-              <span className="figures hidden text-ink sm:block">
-                {p.estimate}
-                <span className="ml-2 text-ink-faint">
-                  [{p.range[0]}–{p.range[1]}]
-                </span>
-              </span>
-              <RiskTrack
-                estimate={p.estimate}
-                range={p.range}
-                active={activeId === p.id}
-                dimmed={activeId !== null && activeId !== p.id}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 flex flex-wrap gap-6 border-t border-rule pt-4">
-          <span className="flex items-center gap-2">
-            <span className="inline-block h-2.5 w-10 rounded-full bg-violet/40" />
-            <Eyebrow className="text-ink-faint">Uncertainty band (market estimate)</Eyebrow>
-          </span>
-          <span className="flex items-center gap-2">
-            <span className="inline-block h-3.5 w-3.5 rounded-full border-2 border-ink bg-paper" />
-            <Eyebrow className="text-ink-faint">Point estimate</Eyebrow>
-          </span>
-          <span className="ml-auto max-w-md text-xs leading-relaxed text-ink-faint">
-            A narrow band is not a narrow truth — it is a confident market. Confidence and
-            correctness are different quantities.
-          </span>
-        </div>
-      </section>
-
-      {/* Comparison table */}
-      <section className="bg-ink text-paper">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-8">
-          <div className="border-b border-paper/25 pb-4">
-            <Eyebrow className="text-lavender">Fig. 2 — Protocol comparison</Eyebrow>
-            <h2 className="display mt-2 text-4xl text-paper">Facts on the left. Estimates on the right.</h2>
-            <p className="mt-2 max-w-2xl text-sm text-paper/60">
-              The two columns are different kinds of knowledge. Facts are verifiable properties on
-              file; estimates are the market's probabilistic reading. They never substitute for
-              each other.
-            </p>
-          </div>
-
-          {/* column legend */}
-          <div className="mt-6 hidden grid-cols-[10rem_9rem_1fr_1fr] gap-x-8 border-b border-paper/25 pb-2 md:grid">
-            <Eyebrow className="text-paper/50">Protocol</Eyebrow>
-            <Eyebrow className="text-paper/50">History (sample)</Eyebrow>
-            <Eyebrow className="text-fact">Verified facts</Eyebrow>
-            <Eyebrow className="text-lavender">Market estimates</Eyebrow>
-          </div>
-
-          <ul>
-            {sorted.map((p) => (
-              <li
-                key={p.id}
-                className={cn(
-                  "grid gap-x-8 gap-y-2 border-b border-paper/15 py-5 transition-opacity md:grid-cols-[10rem_9rem_1fr_1fr]",
-                  activeId !== null && activeId !== p.id && "md:opacity-50",
-                )}
-              >
-                <div>
-                  <p className="text-[15px] text-paper">{p.name}</p>
-                  <Eyebrow className="text-paper/50">{p.category}</Eyebrow>
-                  <p className="figures mt-1 text-lavender">
-                    {p.estimate} <span className="text-paper/50">[{p.range[0]}–{p.range[1]}]</span>
-                  </p>
+      <main>
+        <header className="mx-auto flex max-w-7xl flex-wrap items-start justify-between gap-4 px-4 pt-7 sm:px-8 sm:pt-9">
+          <div><h1 className="display text-4xl text-ink sm:text-5xl">Riskometer<span className="text-violet">.</span></h1><p className="mt-3 text-sm text-ink-soft">See how the market prices risk.</p></div>
+          <div className="pt-1 text-right"><SampleTag /><p className="mt-2 text-xs text-ink-faint">An instrument by Seer</p></div>
+        </header>
+        <section aria-label="Riskometer instrument" className="riskometer-stage mx-auto grid max-w-5xl items-center px-4 sm:px-8 md:grid-cols-[1fr_1fr]">
+          <div className="riskometer-controls min-w-0">
+            <Eyebrow className="text-ink-faint">01 / Protocol</Eyebrow>
+            <Popover open={selectorOpen} onOpenChange={open => { setSelectorOpen(open); if (!open) setQuery(""); }}>
+              <PopoverTrigger asChild><Button variant="ghost" aria-label={`Select protocol, current ${protocol.name}`} className="mt-3 h-auto w-full justify-between whitespace-normal rounded-none border-b border-ink px-0 py-3 text-left hover:bg-transparent"><span className="min-w-0"><span className="block font-display text-3xl text-ink sm:text-4xl">{protocol.name}</span><span className="mt-2 block text-xs font-normal text-ink-faint">{protocol.category}</span></span><ChevronDown className="ml-3 shrink-0 text-violet-deep" /></Button></PopoverTrigger>
+              <PopoverContent align="start" className="w-[min(360px,calc(100vw-32px))] p-2">
+                <div className="relative"><Search className="absolute left-3 top-3 size-4 text-ink-faint" /><Input aria-label="Search protocols" placeholder="Search name or category…" value={query} onChange={e => setQuery(e.target.value)} className="h-10 pl-9" /></div>
+                <div role="group" aria-label="Protocols" className="mt-2 max-h-72 overflow-y-auto">
+                  {matches.map(p => <Button key={p.id} variant="ghost" aria-pressed={selectedId === p.id} onClick={() => { setSelectedId(p.id); setSelectorOpen(false); setQuery(""); }} className={cn("h-auto min-h-14 w-full justify-between rounded-sm px-3 py-2 text-left", selectedId === p.id && "bg-lavender-soft")}><span><span className="block text-sm">{p.name}</span><span className="block text-xs font-normal text-ink-faint">{p.category}</span></span><span className="flex items-center gap-2 figures text-violet-deep">{selectedId === p.id && <Check className="size-3" />}{p.estimate}</span></Button>)}
+                  {matches.length === 0 && <p className="p-4 text-sm text-ink-soft">No matching protocols.</p>}
                 </div>
-                <Signature data={p.history} width={110} height={30} className="hidden text-lavender md:block" />
-                <ul className="space-y-1">
-                  {p.facts.map((f, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-paper/80">
-                      <span className="eyebrow mt-0.5 shrink-0 border border-fact/60 px-1 text-fact">Fact</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <ul className="space-y-1">
-                  {p.estimates.map((e, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-paper/80">
-                      <span className="eyebrow mt-0.5 shrink-0 border border-lavender/60 px-1 text-lavender">Est.</span>
-                      <span>{e}</span>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+                <p className="border-t border-rule px-3 pt-2 text-xs text-ink-faint">All protocols and readings are illustrative.</p>
+              </PopoverContent>
+            </Popover>
+            <div aria-live="polite" aria-atomic="true" className="riskometer-reading mt-8">
+              <Eyebrow className="text-ink-faint">Market-implied risk</Eyebrow>
+              <p className="mt-3 flex items-baseline gap-3"><span className="font-display text-8xl leading-none text-violet-deep">{protocol.estimate}</span><span className="figures text-ink-faint">/ 100</span></p>
+              <p className="mt-4 text-sm text-ink-soft">Uncertainty <span className="figures ml-2 text-ink">{protocol.range[0]}–{protocol.range[1]}</span></p>
+              <p className="mt-2 text-xs text-ink-faint">{movement > 0 ? "+" : ""}{movement} pts · Jan–Dec 2025, illustrative</p>
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Button variant="link" onClick={revealDiagnosis} aria-expanded={diagnosisOpen} aria-controls="risk-diagnosis" className="h-10 px-0 text-sm">Explore diagnosis <ArrowDown /></Button>
+              <Button variant="ghost" onClick={() => setCompareOpen(open => !open)} aria-expanded={compareOpen} aria-controls="risk-comparison" className="h-10 px-2 text-xs text-ink-soft"><GitCompareArrows /> Compare</Button>
+            </div>
+          </div>
+          <div className="riskometer-visual relative min-w-0">
+            <RiskThermometer protocol={protocol} onExplore={revealDiagnosis} expanded={diagnosisOpen} />
+            <div className="riskometer-range-key flex items-center justify-center gap-2 text-xs text-ink-faint"><span className="h-3 w-5 border border-dashed border-violet bg-lavender" />Uncertainty range</div>
+          </div>
+        </section>
+        <div id="risk-diagnosis" hidden={!diagnosisOpen} className="scroll-mt-20 border-t border-rule bg-lavender-soft/40">
+          <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8">
+            <div className="mb-7 flex items-center justify-between gap-4 border-b border-rule pb-4"><div><h2 className="font-display text-3xl text-ink">{protocol.name} / Diagnosis</h2><p className="mt-2 text-xs text-ink-faint">Illustrative context, not a security assessment</p></div><Button variant="ghost" size="icon" aria-label="Close diagnosis" onClick={() => setDiagnosisOpen(false)}><X /></Button></div>
+            <RiskDiagnosis protocol={protocol} />
+          </div>
         </div>
-      </section>
-
-      {/* Closing disclaimer */}
-      <section className="border-b border-rule bg-lavender-soft/60">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-8">
-          <p className="display max-w-4xl text-2xl leading-snug text-ink sm:text-3xl">
-            A risk estimate is a <em className="text-violet-deep">probabilistic reading</em>, priced
-            by a market at a moment in time. It is not an audit, not a rating, and never a
-            guarantee of safety.
-          </p>
-        </div>
-      </section>
-
-      <AtlasCrossLink
-        family="risk"
-        label="Every risk estimate, in the universal explorer"
-        note="Protocol-level instruments like these sit in the atlas beside every other market type. Open the Seer App to search the full risk spectrum and beyond."
-      />
-
+        <section id="risk-comparison" hidden={!compareOpen} className="scroll-mt-20 border-t border-rule">
+          <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8">
+            <div className="flex items-center justify-between gap-4"><h2 className="font-display text-3xl text-ink">Side by side<span className="text-violet">.</span></h2><Button variant="ghost" size="icon" aria-label="Close comparison" onClick={() => setCompareOpen(false)}><X /></Button></div>
+            <Popover><PopoverTrigger asChild><Button variant="outline" className="mt-5 text-xs"><GitCompareArrows /> Choose protocols <ChevronDown /></Button></PopoverTrigger><PopoverContent align="start" className="w-[min(340px,calc(100vw-32px))] p-2"><div role="group" aria-label="Comparison protocols">{RISK_PROTOCOLS.map(p => <Button key={p.id} variant="ghost" aria-pressed={comparisonIds.includes(p.id)} onClick={() => toggleComparison(p.id)} className="h-auto min-h-11 w-full justify-between whitespace-normal text-left text-sm">{p.name}{comparisonIds.includes(p.id) && <Check />}</Button>)}</div></PopoverContent></Popover>
+            <div className="mt-5 hidden grid-cols-[1fr_5rem_7rem_7rem] gap-3 border-b border-rule pb-3 sm:grid"><Eyebrow>Protocol / category</Eyebrow><Eyebrow>Estimate</Eyebrow><Eyebrow>Range</Eyebrow><Eyebrow>History / Δ</Eyebrow></div>
+            {RISK_PROTOCOLS.filter(p => comparisonIds.includes(p.id)).map(p => <RiskComparisonRow key={p.id} protocol={p} />)}
+            {comparisonIds.length < 2 && <p className="mt-4 text-sm text-ink-faint">Select at least two protocols to compare.</p>}
+            <p className="mt-4 text-xs text-ink-faint">Illustrative estimates · historical movement, Jan–Dec 2025 · not safety rankings</p>
+          </div>
+        </section>
+        <div className="border-t border-rule"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-8"><p className="text-xs text-ink-faint">Illustrative readings. Not an audit or guarantee of safety.</p><Link to="/app" search={{ family: "risk" }} className="inline-flex items-center gap-2 text-xs text-violet-deep">Risk markets in the Seer App <ArrowUpRight className="size-4" /></Link></div></div>
+      </main>
       <SiteFooter />
     </div>
   );
