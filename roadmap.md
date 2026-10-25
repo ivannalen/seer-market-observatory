@@ -9,7 +9,7 @@
 - [x] Route 3 — DEEP `/deep` : many-outcome possibility field, ranked list, forecast comparison, grant-evaluation deep dive
 - [x] Route 4 — FUTARCHY `/futarchy` : shared-scale counterfactual comparison, Δ bracket, assumptions, historical estimates, DAO-authority note
 - [x] Route 5 — OPPORTUNITY `/opportunity` : candidate field, selection odds, slots, frontier chart, reviewer shortlist interaction, human-authority note
-- [x] Route 6 — RISK `/risk` : comparative spectrum with uncertainty ranges, history, comparison table, estimate-vs-fact distinction, no-safety-guarantee note
+- [x] Route 6 — RISKOMETER `/riskometer` : comparative spectrum with uncertainty ranges, history, comparison table, estimate-vs-fact distinction, no-safety-guarantee note
 - [x] Verify: build + routing test + Playwright pass over all six routes
 
 ## Round 2 — Information-finance direction (two-sided marketplace, universal explorer)
