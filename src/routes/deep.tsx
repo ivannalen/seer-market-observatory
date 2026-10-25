@@ -134,7 +134,14 @@ function DeepPage() {
             <Eyebrow className="text-lavender">Fig. 2 — The ranked field</Eyebrow>
             <h2 className="display mt-2 text-4xl text-paper">Every outcome, in order</h2>
           </div>
-          <ol className="mt-6">
+          <div className="hidden grid-cols-[2.5rem_1fr_7rem_7rem_7rem] gap-x-4 border-b border-paper/25 pb-2 sm:grid">
+            <span />
+            <Eyebrow className="text-paper/50">Outcome · sample</Eyebrow>
+            <Eyebrow className="text-right text-paper/50">Market</Eyebrow>
+            <Eyebrow className="text-right text-paper/50">Reviewer</Eyebrow>
+            <Eyebrow className="text-right text-paper/50">Community</Eyebrow>
+          </div>
+          <ol className="mt-2">
             {ranked.map((c, i) => {
               const isSelected = c.id === selectedId;
               return (

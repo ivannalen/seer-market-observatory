@@ -1,10 +1,10 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowUpRight, Search } from "lucide-react";
+import { ArrowUpRight, Search } from "lucide-react";
 
 import { ObservatoryNav } from "@/components/observatory/nav";
 import { Eyebrow, SampleTag, SiteFooter } from "@/components/observatory/chrome";
-import { DistributionField, Signature } from "@/components/observatory/charts";
+import { Signature } from "@/components/observatory/charts";
 import {
   INSTRUMENT_LABEL,
   MARKETS,
