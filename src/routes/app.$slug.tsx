@@ -28,6 +28,7 @@ export const Route = createFileRoute("/app/$slug")({
             : "Instrument detail in the Seer market atlas.",
         },
         { property: "og:title", content: m ? `${m.question} — Seer Atlas` : "Instrument — Seer Atlas" },
+        { property: "og:description", content: m ? `Explore the question, outcomes and decision context for ${m.question} (sample data).` : "Instrument detail in the Seer market atlas." },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],

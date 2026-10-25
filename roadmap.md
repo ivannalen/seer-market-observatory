@@ -21,3 +21,9 @@
 - [x] Cross-links from each specialized application back into the universal atlas (pre-filtered)
 - [x] Verified round 2: build clean, 11 tests pass, zero console errors across all 8 URLs
 - [ ] Live Seer data integration (blocked: no reliable public feed in the prototype)
+
+## Riskometer refinement
+- [x] Instrument-first /risk with searchable protocol selection and accessible thermometer
+- [x] Progressive diagnosis with honest provenance, uncertainty and dated demo history
+- [x] Optional compact protocol comparison
+- [x] Verify selection, diagnosis, comparison, navigation and desktop/mobile layout
