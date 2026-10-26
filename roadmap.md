@@ -45,3 +45,8 @@
 ## Fix and verify all six (uploaded brief)
 - [x] Opportunity shortlist now enforces the four-slot limit (toggle helper + disabled Mark buttons) with test
 - [x] Verified: direct URL + refresh on all six routes, nav on every page, home cards/Open links, back/forward, atlas detail links, slot limit live
+
+## Portable Seer logo on Vercel
+- [x] Identify the broken Lovable-only image path and restore the original logo as a repository asset
+- [x] Verify the restored header/footer logo in the app and check the favicon separately; automatic build OK and 24 tests pass
+- [ ] Verify the GitHub/Vercel redeployment (blocked: no GitHub or Vercel connection available; deployed site still serves the old broken image path)

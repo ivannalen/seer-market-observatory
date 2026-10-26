@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { ECOSYSTEM_APPS } from "@/data/seer";
 import type { ReactNode } from "react";
-import seerLogo from "@/assets/seer-logo.jpg.asset.json";
+import seerLogo from "@/assets/seer-logo.jpg";
 
 /* ============ Compact technical label ============ */
 
@@ -93,7 +93,7 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-[1fr_auto]">
           <div>
             <p className="display flex items-center gap-3 text-4xl">
-              <img src={seerLogo.url} alt="Seer logo" width={48} height={48} className="size-12 rounded-sm" />
+              <img src={seerLogo} alt="Seer logo" width={48} height={48} className="size-12 rounded-sm" />
               <span>Seer<span className="text-lavender">.</span></span>
             </p>
             <p className="eyebrow mt-2 text-paper/60">The Observatory — information finance, examined.</p>

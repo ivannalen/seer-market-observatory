@@ -14,3 +14,4 @@
 - Keep handheld power and display-mode state local to the Riskometer; device buttons change presentation or select protocols, never fabricate new readings.
 - Maintain typography through shared CSS tokens and bundled Fontsource stylesheets; this keeps all interfaces consistent and fonts reliable without external requests.
 - Use shared chart-point hit targets, focus rings and pointer/keyboard handlers for interactive SVG data points; charts and lists must act on the same selection state.
+- Import the repository's original Seer logo as a Vite image asset in shared branding; relative Lovable asset-service URLs are not portable to external hosting.
