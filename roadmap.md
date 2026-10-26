@@ -52,8 +52,8 @@
 - [ ] Verify the GitHub/Vercel redeployment (blocked: no GitHub or Vercel connection available; deployed site still serves the old broken image path)
 
 ## Evidence-based Riskometer analysis
-- [ ] Add real DeFiLlama protocol search, chain selection, run/rerun and explicit failure states
-- [ ] Add transparent evidence model, coverage gate, measured TVL history and explainable factor report
-- [ ] Add compatible report comparison and preserve the separate demo instrument
-- [ ] Verify real responses, failed requests, missing data, tests and other five interfaces
+- [x] Add real DeFiLlama protocol search, chain selection, run/rerun and explicit failure states
+- [x] Add transparent evidence model, coverage gate, measured TVL history and explainable factor report
+- [x] Add compatible report comparison and preserve the separate demo instrument
+- [x] Verify real responses, failed requests, missing data, tests and other five interfaces — Aave UI TVL matched its actual response (16,563,037,788 USD); Uniswap/chain comparison verified, simulated 503 and empty-series states verified, 34 tests pass and automatic build OK
 - [ ] GitHub/Vercel delivery verification (blocked: Git operations are managed by Lovable; direct commit/push unavailable)
