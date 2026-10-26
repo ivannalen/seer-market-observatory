@@ -57,3 +57,7 @@
 - [x] Add compatible report comparison and preserve the separate demo instrument
 - [x] Verify real responses, failed requests, missing data, tests and other five interfaces — Aave UI TVL matched its actual response (16,563,037,788 USD); Uniswap/chain comparison verified, simulated 503 and empty-series states verified, 34 tests pass and automatic build OK
 - [ ] GitHub/Vercel delivery verification (blocked: Git operations are managed by Lovable; direct commit/push unavailable)
+
+## Information-finance experience upgrade (uploaded brief)
+- [x] Report: protocol overview (description + website from DeFiLlama, labeled unverified) and conclusion / what-to-investigate-next sections
+- [x] Real-data critical requirements: 24h/7d TVL changes, chain TVL distribution (not concentration) — UI numbers verified against the live API (Aave V3: $16,563,037,788; 24h −0.70%, 7d −2.51%, 30d −9.34% all match); 37 tests pass

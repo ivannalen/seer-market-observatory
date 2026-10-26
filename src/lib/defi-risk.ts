@@ -8,6 +8,8 @@ export const protocolSchema = z.object({
   tvl: z.array(observation).default([]),
   chainTvls: z.record(z.object({ tvl: z.array(observation).default([]), tokensInUsd: z.array(tokenObservation).default([]) })).default({}),
   tokensInUsd: z.array(tokenObservation).default([]), audit_links: z.array(z.string()).default([]),
+  description: z.string().optional(), url: z.string().optional(),
+  currentChainTvls: z.record(z.number().finite()).default({}),
 });
 const listingSchema = z.array(z.object({ name: z.string(), slug: z.string(), category: z.string().optional(), chains: z.array(z.string()).default([]) }));
 export type ProtocolListing = z.infer<typeof listingSchema>[number];
@@ -36,7 +38,9 @@ export function evidenceScore(factors: Factor[]) {
 }
 export function analyzeProtocol(raw: ProtocolEvidence, slug: string, chain: string, retrievedAt: string): {
   name: string; slug: string; chain: string; category: string; retrievedAt: string; source: string;
-  history: Observation[]; currentTvl: number | null; change30d: number | null; volatility: number | null;
+  description: string | null; url: string | null;
+  history: Observation[]; currentTvl: number | null; change24h: number | null; change7d: number | null; change30d: number | null; volatility: number | null;
+  chainDistribution: { chain: string; tvl: number; share: number }[];
   factors: Factor[]; coverage: number; overall: number | null; auditLinks: string[]; findings: string[];
 } {
   if (chain !== "all" && !raw.chains.includes(chain)) throw new Error("This blockchain is not supported by the protocol.");
@@ -51,6 +55,15 @@ export function analyzeProtocol(raw: ProtocolEvidence, slug: string, chain: stri
   const date = last ? new Date(last.date * 1000).toISOString() : null;
   const fresh = last ? Date.parse(retrievedAt) - last.date * 1000 <= 3 * 86400000 : false;
   const change30d = start && last && cutoff - start.date <= 2 * 86400 ? percentChange(start.totalLiquidityUSD, last.totalLiquidityUSD) : null;
+  const changeOver = (days: number) => {
+    const point = last ? full.filter(p => p.date <= last.date - days * 86400).at(-1) : undefined;
+    return point && last && last.date - days * 86400 - point.date <= 2 * 86400 ? percentChange(point.totalLiquidityUSD, last.totalLiquidityUSD) : null;
+  };
+  const change24h = changeOver(1);
+  const change7d = changeOver(7);
+  const chainEntries = Object.entries(raw.currentChainTvls).filter(([name, value]) => value > 0 && raw.chains.includes(name));
+  const chainTotal = chainEntries.reduce((sum, [, value]) => sum + value, 0);
+  const chainDistribution = (chain === "all" && chainTotal > 0 ? chainEntries : []).map(([name, value]) => ({ chain: name, tvl: value, share: value / chainTotal * 100 })).sort((a, b) => b.tvl - a.tvl);
   const returns = window.slice(1).flatMap((p, i) => {
     const previous = window[i];
     if (!previous || p.date - previous.date > 2 * 86400) return [];
@@ -75,5 +88,5 @@ export function analyzeProtocol(raw: ProtocolEvidence, slug: string, chain: stri
   ];
   const { coverage, overall } = evidenceScore(factors);
   const findings = [last ? `Latest reported TVL is ${last.totalLiquidityUSD} USD on ${date?.slice(0, 10)} (${chain === "all" ? "all chains" : chain}).` : "No TVL observations available for this scope.", ...factors.filter(f => f.kind === "Measured").map(f => `${f.name}: ${f.assessment}.`), `Overall risk score ${overall === null ? "withheld: insufficient independently supported evidence" : `${overall}/100`}.`];
-  return { name: raw.name, slug, chain, category: raw.category ?? "DeFi", retrievedAt, source: `${API_ROOT}/protocol/${encodeURIComponent(slug)}`, history, currentTvl: last?.totalLiquidityUSD ?? null, change30d, volatility, factors, coverage, overall, auditLinks: raw.audit_links.filter(url => url.startsWith("https://")), findings };
+  return { name: raw.name, slug, chain, category: raw.category ?? "DeFi", retrievedAt, source: `${API_ROOT}/protocol/${encodeURIComponent(slug)}`, description: raw.description ?? null, url: raw.url?.startsWith("https://") ? raw.url : null, history, currentTvl: last?.totalLiquidityUSD ?? null, change24h, change7d, change30d, volatility, chainDistribution, factors, coverage, overall, auditLinks: raw.audit_links.filter(url => url.startsWith("https://")), findings };
 }
