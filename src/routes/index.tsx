@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { ObservatoryNav } from "@/components/observatory/nav";
 import { Eyebrow, SampleTag, SectionHead, SiteFooter } from "@/components/observatory/chrome";
 import { Signature } from "@/components/observatory/charts";
+import { ObservatoryQuery } from "@/components/observatory/workbench";
 import {
   ECOSYSTEM_APPS,
   FEATURED_SLUGS,
@@ -81,6 +82,7 @@ function Index() {
                 Tour the constellation
               </a>
             </div>
+            <ObservatoryQuery />
           </div>
 
           {/* Transformation figure: question → instrument → outputs */}

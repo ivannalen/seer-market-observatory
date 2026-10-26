@@ -6,6 +6,7 @@ import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/co
 import { DistributionField, ForecastTriple } from "@/components/observatory/charts";
 import { DEEP_CANDIDATES, DEEP_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
+import { DeepInvestigator } from "@/components/observatory/workbench";
 
 export const Route = createFileRoute("/deep")({
   head: () => ({
@@ -58,6 +59,8 @@ function DeepPage() {
           </div>
         </div>
       </section>
+
+      <DeepInvestigator onFocus={setSelectedId} />
 
       {/* Field + detail */}
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-8">
