@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/observatory/chrome";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DEEP_CANDIDATES, OPPORTUNITY_CANDIDATES, type FutarchyProposal, type OpportunityCandidate } from "@/data/seer";
+import { DEEP_CANDIDATES, OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET, type FutarchyProposal, type OpportunityCandidate } from "@/data/seer";
 import { cn } from "@/lib/utils";
 import {
   deepAnalysis, filterOpportunities, futarchyScenario, riskBand, routeQuery, validateQuestion,
@@ -154,7 +154,7 @@ export function OpportunityExplorer({ shortlist, onToggle, frontierIds }: { shor
                 <span className="block text-xs text-ink-faint">{c.category} · {pct(c.odds)} odds · {Math.round(c.score * 100)} score</span>
               </button>
               <Button variant="ghost" size="sm" aria-pressed={compare.includes(c.id)} disabled={!compare.includes(c.id) && compare.length >= 3} onClick={() => toggleCompare(c.id)} className="text-xs">{compare.includes(c.id) ? "Comparing" : "Compare"}</Button>
-              <Button variant="outline" size="sm" aria-pressed={shortlist.includes(c.id)} onClick={() => onToggle(c.id)} className="text-xs">{shortlist.includes(c.id) ? "Marked" : "Mark"}</Button>
+              <Button variant="outline" size="sm" aria-pressed={shortlist.includes(c.id)} disabled={!shortlist.includes(c.id) && shortlist.length >= OPPORTUNITY_MARKET.slots} title={!shortlist.includes(c.id) && shortlist.length >= OPPORTUNITY_MARKET.slots ? `Shortlist full — ${OPPORTUNITY_MARKET.slots} slots` : undefined} onClick={() => onToggle(c.id)} className="text-xs">{shortlist.includes(c.id) ? "Marked" : "Mark"}</Button>
             </li>
           ))}
           {rows.length === 0 && <li className="py-6 text-sm text-ink-soft">No candidates match. <Button variant="link" className="px-1" onClick={() => { setQuery(""); setCategory("all"); }}>Clear filters</Button></li>}

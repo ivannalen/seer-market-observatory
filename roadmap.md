@@ -41,3 +41,7 @@
 - [x] Opportunity search/filter/sort, detail panel, compare up to 3
 - [x] Riskometer exploratory scale probe (pointer + keyboard) with Low/Moderate/Elevated/High bands
 - [x] Tests (23) + mobile click-through
+
+## Fix and verify all six (uploaded brief)
+- [x] Opportunity shortlist now enforces the four-slot limit (toggle helper + disabled Mark buttons) with test
+- [x] Verified: direct URL + refresh on all six routes, nav on every page, home cards/Open links, back/forward, atlas detail links, slot limit live

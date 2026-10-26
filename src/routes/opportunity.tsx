@@ -9,6 +9,7 @@ import { OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { OpportunityExplorer } from "@/components/observatory/workbench";
+import { toggleShortlist } from "@/components/observatory/workbench-data";
 
 export const Route = createFileRoute("/opportunity")({
   head: () => ({
@@ -42,8 +43,7 @@ function OpportunityPage() {
   const frontierIds = ranked.slice(0, slots).map((c) => c.id);
   const frontierThreshold = frontierIds.length === slots ? (ranked[slots - 1]?.odds ?? 0) : 0;
 
-  const toggle = (id: string) =>
-    setShortlist((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
+  const toggle = (id: string) => setShortlist((s) => toggleShortlist(s, id, slots));
 
   return (
     <div className="min-h-screen bg-paper">
