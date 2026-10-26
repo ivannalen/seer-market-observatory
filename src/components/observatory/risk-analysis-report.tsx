@@ -6,7 +6,7 @@ import { riskBand, type RiskReport } from "@/lib/defi-risk";
 export const usd = (value: number | null) => value === null ? "Unknown" : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
 export const utcDate = (value: string) => `${value.replace("T", " ").slice(0, 19)} UTC`;
 
-export function AnalysisInstrument({ report, loading, onExplore, protocolName }: { report: RiskReport | null; loading: boolean; onExplore: () => void; protocolName?: string }) {
+export function AnalysisInstrument({ report, loading, onExplore, protocolName }: { report: RiskReport | null; loading: boolean; onExplore: () => void; protocolName?: string | undefined }) {
   const [powered, setPowered] = useState(true);
   const [coverage, setCoverage] = useState(false);
   const displayed = !powered || loading ? null : coverage && report ? report.coverage : report?.overall ?? null;
