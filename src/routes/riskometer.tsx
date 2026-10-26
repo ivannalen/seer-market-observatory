@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { RISK_PROTOCOLS } from "@/data/seer";
 import { cn } from "@/lib/utils";
+import { RiskProbe } from "@/components/observatory/workbench";
 
 export const Route = createFileRoute("/riskometer")({
   head: () => ({ meta: [
@@ -82,6 +83,7 @@ export function RiskPage() {
           <div className="riskometer-visual relative min-w-0">
             <RiskThermometer protocol={protocol} onExplore={revealDiagnosis} expanded={diagnosisOpen} onPrevious={() => stepProtocol(-1)} onNext={() => stepProtocol(1)} />
             <div className="riskometer-range-key flex items-center justify-center gap-2 text-xs text-ink-faint"><span className="h-3 w-5 border border-dashed border-violet bg-lavender" />Uncertainty range</div>
+            <RiskProbe key={protocol.id} estimate={protocol.estimate} range={protocol.range} />
           </div>
         </section>
         <div id="risk-diagnosis" hidden={!diagnosisOpen} className="scroll-mt-20 border-t border-rule bg-lavender-soft/40">

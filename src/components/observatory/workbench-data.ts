@@ -42,7 +42,7 @@ export function deepAnalysis(question: string, candidates: DeepCandidate[]): Dee
     question,
     focus,
     rival,
-    thesis: `The sample field leans toward “${focus.name}” at ${pct(focus.share)}, against “${rival.name}” at ${pct(rival.share)}.`,
+    thesis: focus.share >= rival.share ? `The sample field leans toward “${focus.name}” at ${pct(focus.share)}, ahead of “${rival.name}” at ${pct(rival.share)}.` : `Your question points to “${focus.name}” at ${pct(focus.share)} — the field still favours “${rival.name}” at ${pct(rival.share)}.`,
     evidence: [
       `Market share ${pct(focus.share)} in the illustrative field.`,
       `Reviewer model reads ${pct(focus.reviewerModel)}; community poll reads ${pct(focus.communityPoll)}.`,
