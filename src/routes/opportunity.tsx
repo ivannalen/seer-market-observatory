@@ -9,6 +9,7 @@ import { OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { OpportunityExplorer } from "@/components/observatory/workbench";
+import { toggleShortlist } from "@/components/observatory/workbench-data";
 
 export const Route = createFileRoute("/opportunity")({
   head: () => ({
