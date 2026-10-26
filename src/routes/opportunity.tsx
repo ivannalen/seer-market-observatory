@@ -43,7 +43,9 @@ function OpportunityPage() {
   const frontierThreshold = frontierIds.length === slots ? (ranked[slots - 1]?.odds ?? 0) : 0;
 
   const toggle = (id: string) =>
-    setShortlist((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
+    setShortlist((s) =>
+      s.includes(id) ? s.filter((x) => x !== id) : s.length >= slots ? s : [...s, id],
+    );
 
   return (
     <div className="min-h-screen bg-paper">
