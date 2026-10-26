@@ -6,14 +6,15 @@ import { riskBand, type RiskReport } from "@/lib/defi-risk";
 export const usd = (value: number | null) => value === null ? "Unknown" : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
 export const utcDate = (value: string) => `${value.replace("T", " ").slice(0, 19)} UTC`;
 
-export function AnalysisInstrument({ report, loading, onExplore }: { report: RiskReport | null; loading: boolean; onExplore: () => void }) {
+export function AnalysisInstrument({ report, loading, onExplore, protocolName }: { report: RiskReport | null; loading: boolean; onExplore: () => void; protocolName?: string | undefined }) {
   const [powered, setPowered] = useState(true);
   const [coverage, setCoverage] = useState(false);
+  const displayed = !powered || loading ? null : coverage && report ? report.coverage : report?.overall ?? null;
   return <div className="risk-device-instrument">
     <div className="risk-device" data-powered={powered}>
       <div className="risk-device-probe" aria-hidden="true"><span /><span /><span /><span /><span /></div>
       <div className="risk-device-body">
-        <div className="risk-device-brand"><span className="font-display text-xl">Seer<span className="text-violet">.</span></span><span className="font-mono text-[9px] text-ink-faint">R / 02</span></div>
+        <div className="risk-device-brand"><span className="font-display text-xl">Seer<span className="text-violet">.</span></span><span className="max-w-[50%] truncate font-mono text-[9px] uppercase text-ink-faint">{protocolName ?? "R / 02"}</span></div>
         <Button variant="ghost" className="risk-device-screen" disabled={!powered || !report || loading} onClick={onExplore} aria-label="Inspect risk analysis report">
           <span className="risk-device-screen-top"><span>RISKOMETER</span><span>{powered ? "EVIDENCE" : "OFF"}</span></span>
           <span className="risk-device-digits">{!powered ? "— —" : loading ? "…" : coverage && report ? report.coverage : report?.overall ?? "— —"}{powered && (coverage || report?.overall !== null) && report && <span className="risk-device-unit">{coverage ? "%" : "/100"}</span>}</span>
@@ -27,8 +28,8 @@ export function AnalysisInstrument({ report, loading, onExplore }: { report: Ris
         <div className="risk-device-footer"><span className="risk-device-led" data-on={powered} /><span>MODEL ESTIMATE · NOT A MARKET PRICE</span></div>
       </div>
     </div>
-    <div className="risk-device-scale" role="img" aria-label="Indicated risk scale from 0 lower to 100 higher; no marker when score is unavailable">
-      <svg viewBox="0 0 500 64" aria-hidden="true"><line x1="20" x2="480" y1="25" y2="25" className="stroke-rule-ink" />{[0, 25, 50, 75, 100].map(v => <g key={v}><line x1={20 + v * 4.6} x2={20 + v * 4.6} y1="25" y2="36" className="stroke-rule-ink" /><text x={20 + v * 4.6} y="52" textAnchor="middle" className="fill-ink-faint font-mono text-[11px]">{v}</text></g>)}{report?.overall !== null && report && <path d={`M${15 + report.overall * 4.6} 2 h10 l-5 8 Z`} className="fill-violet-deep" />}</svg>
+    <div className="risk-device-scale" role="img" aria-label={displayed === null ? "Indicated risk scale from 0 lower to 100 higher; no reading shown" : `Indicated risk scale from 0 lower to 100 higher; current reading ${displayed}`}>
+      <svg viewBox="0 0 500 64" aria-hidden="true"><line x1="20" x2="480" y1="25" y2="25" className="stroke-rule-ink" />{displayed !== null && <rect x="20" y="21" width="460" height="8" rx="4" className="risk-device-fill" style={{ transform: `scaleX(${displayed / 100})` }} />}{[0, 25, 50, 75, 100].map(v => <g key={v}><line x1={20 + v * 4.6} x2={20 + v * 4.6} y1="25" y2="36" className="stroke-rule-ink" /><text x={20 + v * 4.6} y="52" textAnchor="middle" className="fill-ink-faint font-mono text-[11px]">{v}</text></g>)}{displayed !== null && <path d={`M${15 + displayed * 4.6} 2 h10 l-5 8 Z`} className="risk-marker fill-violet-deep" />}</svg>
       <div className="flex justify-between text-[10px] font-mono text-ink-faint"><span>LOWER INDICATED RISK</span><span>HIGHER INDICATED RISK</span></div>
     </div>
   </div>;
