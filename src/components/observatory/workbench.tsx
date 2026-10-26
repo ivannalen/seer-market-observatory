@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/observatory/chrome";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DEEP_CANDIDATES, OPPORTUNITY_CANDIDATES, type FutarchyProposal, type OpportunityCandidate } from "@/data/seer";
+import { DEEP_CANDIDATES, OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET, type FutarchyProposal, type OpportunityCandidate } from "@/data/seer";
 import { cn } from "@/lib/utils";
 import {
   deepAnalysis, filterOpportunities, futarchyScenario, riskBand, routeQuery, validateQuestion,

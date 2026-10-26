@@ -42,10 +42,7 @@ function OpportunityPage() {
   const frontierIds = ranked.slice(0, slots).map((c) => c.id);
   const frontierThreshold = frontierIds.length === slots ? (ranked[slots - 1]?.odds ?? 0) : 0;
 
-  const toggle = (id: string) =>
-    setShortlist((s) =>
-      s.includes(id) ? s.filter((x) => x !== id) : s.length >= slots ? s : [...s, id],
-    );
+  const toggle = (id: string) => setShortlist((s) => toggleShortlist(s, id, slots));
 
   return (
     <div className="min-h-screen bg-paper">
