@@ -17,14 +17,22 @@ export function RiskThermometer({ protocol, onExplore, expanded, onPrevious, onN
           <div className="risk-device-brand"><span className="font-display text-xl">Seer<span className="text-violet">.</span></span><span className="font-mono text-[9px] text-ink-faint">R / 01</span></div>
           <Button variant="ghost" disabled={!powered} onClick={onExplore} aria-expanded={expanded} aria-controls="risk-diagnosis"
             aria-label={`Explore ${protocol.name} diagnosis: estimate ${protocol.estimate} out of 100, uncertainty ${protocol.range[0]} to ${protocol.range[1]}`}
+            title="Open diagnosis"
             className="risk-device-screen">
             <span className="risk-device-screen-top"><span>RISKOMETER</span><span>{powered ? "DEMO" : "OFF"}</span></span>
             <span key={`${protocol.id}-${rangeMode}-${powered}`} className="risk-device-digits">{powered ? (rangeMode ? `${protocol.range[0]}–${protocol.range[1]}` : String(protocol.estimate).padStart(2, "0")) : "— —"}<span className="risk-device-unit">/100</span></span>
             <span className="risk-device-screen-bottom">{powered ? (rangeMode ? "UNCERTAINTY RANGE" : "MARKET-IMPLIED RISK") : "STANDBY"}</span>
+            {powered && <span className="risk-device-screen-hint">Tap for diagnosis</span>}
           </Button>
           <div className="risk-device-buttons">
-            <Button variant="ghost" size="icon" aria-label={powered ? "Turn Riskometer off" : "Turn Riskometer on"} aria-pressed={powered} onClick={() => setPowered(value => !value)} title={powered ? "Power off" : "Power on"} className="risk-device-power"><Power /></Button>
-            <Button variant="ghost" size="icon" disabled={!powered} aria-label="Show uncertainty on device" aria-pressed={rangeMode} onClick={() => setRangeMode(value => !value)} title="Estimate / uncertainty" className="risk-device-mode"><SlidersHorizontal /></Button>
+            <span className="risk-device-button-cell">
+              <Button variant="ghost" size="icon" aria-label={powered ? "Turn Riskometer off" : "Turn Riskometer on"} aria-pressed={powered} onClick={() => setPowered(value => !value)} title={powered ? "Power off" : "Power on"} className="risk-device-power"><Power /></Button>
+              <span className="risk-device-button-label">Power</span>
+            </span>
+            <span className="risk-device-button-cell">
+              <Button variant="ghost" size="icon" disabled={!powered} aria-label="Show uncertainty on device" aria-pressed={rangeMode} onClick={() => setRangeMode(value => !value)} title="Estimate / uncertainty" className="risk-device-mode"><SlidersHorizontal /></Button>
+              <span className="risk-device-button-label">Range</span>
+            </span>
           </div>
           <div className="risk-device-footer"><span className="risk-device-led" data-on={powered} /><span>{powered ? "ILLUSTRATIVE READING" : "POWER OFF"}</span></div>
         </div>
