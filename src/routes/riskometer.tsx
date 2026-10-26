@@ -12,20 +12,23 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { RISK_PROTOCOLS } from "@/data/seer";
 import { cn } from "@/lib/utils";
 import { RiskProbe } from "@/components/observatory/workbench";
+import { RiskAnalysis, protocolListOptions } from "@/components/observatory/risk-analysis";
 
 export const Route = createFileRoute("/riskometer")({
   head: () => ({ meta: [
-    { title: "Riskometer — Market-implied risk thermometer by Seer" },
-    { name: "description", content: "Explore Seer's Riskometer: protocol risk readings, uncertainty, diagnosis and comparison. All readings are illustrative, not security ratings." },
+    { title: "Riskometer — Evidence-based DeFi analysis by Seer" },
+    { name: "description", content: "Analyze real DeFiLlama protocol TVL, historical trends and evidence coverage with Seer's transparent Riskometer. Demo market readings remain separate." },
     { property: "og:title", content: "Riskometer — Seer Observatory" },
-    { property: "og:description", content: "See how the market prices risk. An interactive thermometer with illustrative protocol readings and uncertainty." },
+    { property: "og:description", content: "Explore actual protocol TVL, explainable risk factors and transparent data limitations in the Seer Riskometer." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(protocolListOptions),
   component: RiskPage,
 });
 
 export function RiskPage() {
+  const [mode, setMode] = useState<"real" | "demo">("real");
   const [selectedId, setSelectedId] = useState("r1");
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -52,9 +55,11 @@ export function RiskPage() {
       <ObservatoryNav />
       <main>
         <header className="mx-auto flex max-w-7xl flex-wrap items-start justify-between gap-4 px-4 pt-7 sm:px-8 sm:pt-9">
-          <div><h1 className="display riskometer-wordmark text-4xl text-ink sm:text-5xl">RISKOMETER<span className="text-violet">.</span></h1><p className="mt-3 text-sm text-ink-soft">Market-implied risk, at a glance.</p></div>
-          <div className="pt-1 text-right"><SampleTag /><p className="mt-2 text-xs text-ink-faint">An instrument by Seer</p></div>
+          <div><h1 className="display riskometer-wordmark text-4xl text-ink sm:text-5xl">RISKOMETER<span className="text-violet">.</span></h1><p className="mt-3 text-sm text-ink-soft">{mode === "real" ? "Protocol evidence, examined." : "Market-implied risk, at a glance."}</p></div>
+          <div className="pt-1 text-right">{mode === "demo" ? <SampleTag /> : <Eyebrow className="text-violet-deep">DeFiLlama · public data</Eyebrow>}<p className="mt-2 text-xs text-ink-faint">An instrument by Seer</p></div>
         </header>
+        <div className="mx-auto mt-5 flex max-w-5xl gap-2 px-4 sm:px-8" role="group" aria-label="Riskometer data mode"><Button variant={mode === "real" ? "secondary" : "ghost"} aria-pressed={mode === "real"} onClick={() => setMode("real")}>Protocol analysis</Button><Button variant={mode === "demo" ? "secondary" : "ghost"} aria-pressed={mode === "demo"} onClick={() => setMode("demo")}>Demo market readings</Button></div>
+        {mode === "real" ? <RiskAnalysis /> : <>
         <section aria-label="Riskometer instrument" className="riskometer-stage mx-auto grid max-w-5xl items-center px-4 sm:px-8 md:grid-cols-[1fr_1fr]">
           <div className="riskometer-controls min-w-0">
             <Eyebrow className="text-ink-faint">01 / Protocol</Eyebrow>
@@ -102,7 +107,8 @@ export function RiskPage() {
             <p className="mt-4 text-xs text-ink-faint">Illustrative estimates · historical movement, Jan–Dec 2025 · not safety rankings</p>
           </div>
         </section>
-        <div className="border-t border-rule"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-8"><p className="text-xs text-ink-faint">Illustrative readings. Not an audit or guarantee of safety.</p><Link to="/app" search={{ family: "risk" }} className="inline-flex items-center gap-2 text-xs text-violet-deep">Risk markets in the Seer App <ArrowUpRight className="size-4" /></Link></div></div>
+        </>}
+        <div className="border-t border-rule"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-8"><p className="text-xs text-ink-faint">{mode === "real" ? "Public observations, limited evidence. Not an audit or guarantee of safety." : "Illustrative readings. Not an audit or guarantee of safety."}</p><Link to="/app" search={{ family: "risk" }} className="inline-flex items-center gap-2 text-xs text-violet-deep">Risk markets in the Seer App <ArrowUpRight className="size-4" /></Link></div></div>
       </main>
       <SiteFooter />
     </div>
