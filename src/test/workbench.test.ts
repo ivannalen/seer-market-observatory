@@ -29,3 +29,14 @@ describe("workbench demo logic", () => {
     expect(routeQuery("Should the DAO pass this proposal")).toBe("/futarchy");
   });
 });
+
+describe("shortlist slot limit", () => {
+  it("never exceeds the slot count and toggles off freely", async () => {
+    const { toggleShortlist } = await import("@/components/observatory/workbench-data");
+    let s: string[] = [];
+    for (const id of ["o01", "o02", "o03", "o04"]) s = toggleShortlist(s, id, 4);
+    expect(s).toHaveLength(4);
+    expect(toggleShortlist(s, "o05", 4)).toEqual(s);
+    expect(toggleShortlist(s, "o02", 4)).toEqual(["o01", "o03", "o04"]);
+  });
+});

@@ -91,3 +91,10 @@ export function routeQuery(raw: string): "/deep" | "/futarchy" | "/opportunity" 
   if (/which|grant|outcome|winner|many/.test(q)) return "/deep";
   return "/app";
 }
+
+/** Toggles a candidate in the shortlist, never exceeding the slot count. */
+export function toggleShortlist(shortlist: string[], id: string, slots: number): string[] {
+  if (shortlist.includes(id)) return shortlist.filter((x) => x !== id);
+  if (shortlist.length >= slots) return shortlist;
+  return [...shortlist, id];
+}
