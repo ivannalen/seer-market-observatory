@@ -22,7 +22,7 @@ export function RiskThermometer({ protocol, onExplore, expanded, onPrevious, onN
             <span className="risk-device-screen-top"><span>RISKOMETER</span><span>{powered ? "DEMO" : "OFF"}</span></span>
             <span key={`${protocol.id}-${rangeMode}-${powered}`} className="risk-device-digits">{powered ? (rangeMode ? `${protocol.range[0]}–${protocol.range[1]}` : String(protocol.estimate).padStart(2, "0")) : "— —"}<span className="risk-device-unit">/100</span></span>
             <span className="risk-device-screen-bottom">{powered ? (rangeMode ? "UNCERTAINTY RANGE" : "MARKET-IMPLIED RISK") : "STANDBY"}</span>
-            {powered && <span className="risk-device-screen-hint">Tap for diagnosis</span>}
+            {powered && <span className="risk-device-screen-hint">Tap screen for diagnosis</span>}
           </Button>
           <div className="risk-device-buttons">
             <span className="risk-device-button-cell">
