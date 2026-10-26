@@ -22,6 +22,19 @@ describe("Evidence-based Riskometer", () => {
     expect(insecure.url).toBeNull();
     expect(analyzeProtocol(fixture(), "test", "all", retrievedAt).description).toBeNull();
   });
+  it("calculates 24-hour and 7-day changes from actual observations", () => {
+    const report = analyzeProtocol(fixture(), "test", "all", retrievedAt);
+    expect(report.change24h).toBeCloseTo((700 - 710) / 710 * 100);
+    expect(report.change7d).toBeCloseTo((700 - 770) / 770 * 100);
+    expect(report.change30d).toBeCloseTo(-30);
+  });
+  it("reports chain TVL distribution only for real chains in all-chain scope", () => {
+    const withChains = protocolSchema.parse({ ...fixture(), currentChainTvls: { Ethereum: 600, Arbitrum: 100, staking: 50 } });
+    const report = analyzeProtocol(withChains, "test", "all", retrievedAt);
+    expect(report.chainDistribution.map(c => c.chain)).toEqual(["Ethereum", "Arbitrum"]);
+    expect(report.chainDistribution[0]?.share).toBeCloseTo(600 / 700 * 100);
+    expect(analyzeProtocol(withChains, "test", "Ethereum", retrievedAt).chainDistribution).toEqual([]);
+  });
   it("withholds overall score for TVL-only evidence and never assigns unknown factors zero", () => {
     const report = analyzeProtocol(fixture(), "test", "all", retrievedAt);
     expect(report.overall).toBeNull(); expect(report.coverage).toBe(35);
