@@ -29,7 +29,7 @@ describe("Evidence-based Riskometer", () => {
     expect(report.change30d).toBeCloseTo(-30);
   });
   it("reports chain TVL distribution only for real chains in all-chain scope", () => {
-    const withChains = protocolSchema.parse({ ...fixture(), currentChainTvls: { Ethereum: 600, Arbitrum: 100, staking: 50 } });
+    const withChains = protocolSchema.parse({ ...fixture(), chains: ["Ethereum", "Arbitrum"], currentChainTvls: { Ethereum: 600, Arbitrum: 100, staking: 50 } });
     const report = analyzeProtocol(withChains, "test", "all", retrievedAt);
     expect(report.chainDistribution.map(c => c.chain)).toEqual(["Ethereum", "Arbitrum"]);
     expect(report.chainDistribution[0]?.share).toBeCloseTo(600 / 700 * 100);
