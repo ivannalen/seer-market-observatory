@@ -8,6 +8,7 @@ export const protocolSchema = z.object({
   tvl: z.array(observation).default([]),
   chainTvls: z.record(z.object({ tvl: z.array(observation).default([]), tokensInUsd: z.array(tokenObservation).default([]) })).default({}),
   tokensInUsd: z.array(tokenObservation).default([]), audit_links: z.array(z.string()).default([]),
+  description: z.string().optional(), url: z.string().optional(),
 });
 const listingSchema = z.array(z.object({ name: z.string(), slug: z.string(), category: z.string().optional(), chains: z.array(z.string()).default([]) }));
 export type ProtocolListing = z.infer<typeof listingSchema>[number];
@@ -36,6 +37,7 @@ export function evidenceScore(factors: Factor[]) {
 }
 export function analyzeProtocol(raw: ProtocolEvidence, slug: string, chain: string, retrievedAt: string): {
   name: string; slug: string; chain: string; category: string; retrievedAt: string; source: string;
+  description: string | null; url: string | null;
   history: Observation[]; currentTvl: number | null; change30d: number | null; volatility: number | null;
   factors: Factor[]; coverage: number; overall: number | null; auditLinks: string[]; findings: string[];
 } {
@@ -75,5 +77,5 @@ export function analyzeProtocol(raw: ProtocolEvidence, slug: string, chain: stri
   ];
   const { coverage, overall } = evidenceScore(factors);
   const findings = [last ? `Latest reported TVL is ${last.totalLiquidityUSD} USD on ${date?.slice(0, 10)} (${chain === "all" ? "all chains" : chain}).` : "No TVL observations available for this scope.", ...factors.filter(f => f.kind === "Measured").map(f => `${f.name}: ${f.assessment}.`), `Overall risk score ${overall === null ? "withheld: insufficient independently supported evidence" : `${overall}/100`}.`];
-  return { name: raw.name, slug, chain, category: raw.category ?? "DeFi", retrievedAt, source: `${API_ROOT}/protocol/${encodeURIComponent(slug)}`, history, currentTvl: last?.totalLiquidityUSD ?? null, change30d, volatility, factors, coverage, overall, auditLinks: raw.audit_links.filter(url => url.startsWith("https://")), findings };
+  return { name: raw.name, slug, chain, category: raw.category ?? "DeFi", retrievedAt, source: `${API_ROOT}/protocol/${encodeURIComponent(slug)}`, description: raw.description ?? null, url: raw.url?.startsWith("https://") ? raw.url : null, history, currentTvl: last?.totalLiquidityUSD ?? null, change30d, volatility, factors, coverage, overall, auditLinks: raw.audit_links.filter(url => url.startsWith("https://")), findings };
 }
