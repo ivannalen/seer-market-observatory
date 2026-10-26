@@ -8,6 +8,7 @@ import { FrontierChart, OddsStrip } from "@/components/observatory/charts";
 import { OPPORTUNITY_CANDIDATES, OPPORTUNITY_MARKET } from "@/data/seer";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { OpportunityExplorer } from "@/components/observatory/workbench";
 
 export const Route = createFileRoute("/opportunity")({
   head: () => ({
@@ -163,6 +164,8 @@ function OpportunityPage() {
           </aside>
         </div>
       </section>
+
+      <OpportunityExplorer shortlist={shortlist} onToggle={toggle} frontierIds={frontierIds} />
 
       {/* Candidate field */}
       <section className="bg-ink text-paper">

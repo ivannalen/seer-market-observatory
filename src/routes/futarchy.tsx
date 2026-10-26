@@ -6,6 +6,7 @@ import { AtlasCrossLink, Eyebrow, PageHeader, SampleTag, SiteFooter } from "@/co
 import { CounterfactualScale } from "@/components/observatory/charts";
 import { FUTARCHY_NOTE, FUTARCHY_PROPOSALS } from "@/data/seer";
 import { cn } from "@/lib/utils";
+import { FutarchyScenario } from "@/components/observatory/workbench";
 
 export const Route = createFileRoute("/futarchy")({
   head: () => ({
@@ -132,6 +133,8 @@ function FutarchyPage() {
           </aside>
         </div>
       </section>
+
+      <FutarchyScenario proposal={p} />
 
       {/* Historical estimates */}
       <section className="bg-lavender-soft/60">
