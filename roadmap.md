@@ -50,3 +50,10 @@
 - [x] Identify the broken Lovable-only image path and restore the original logo as a repository asset
 - [x] Verify the restored header/footer logo in the app and check the favicon separately; automatic build OK and 24 tests pass
 - [ ] Verify the GitHub/Vercel redeployment (blocked: no GitHub or Vercel connection available; deployed site still serves the old broken image path)
+
+## Evidence-based Riskometer analysis
+- [ ] Add real DeFiLlama protocol search, chain selection, run/rerun and explicit failure states
+- [ ] Add transparent evidence model, coverage gate, measured TVL history and explainable factor report
+- [ ] Add compatible report comparison and preserve the separate demo instrument
+- [ ] Verify real responses, failed requests, missing data, tests and other five interfaces
+- [ ] GitHub/Vercel delivery verification (blocked: Git operations are managed by Lovable; direct commit/push unavailable)
