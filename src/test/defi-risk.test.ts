@@ -13,6 +13,15 @@ describe("Evidence-based Riskometer", () => {
     expect(report.factors.find(f => f.id === "trend")?.score).toBe(60);
     expect(percentChange(0, 10)).toBeNull();
   });
+  it("passes through the protocol overview and rejects non-https website links", () => {
+    const withMeta = protocolSchema.parse({ ...fixture(), description: "A lending protocol.", url: "https://example.org" });
+    const report = analyzeProtocol(withMeta, "test", "all", retrievedAt);
+    expect(report.description).toBe("A lending protocol.");
+    expect(report.url).toBe("https://example.org");
+    const insecure = analyzeProtocol(protocolSchema.parse({ ...fixture(), url: "http://example.org" }), "test", "all", retrievedAt);
+    expect(insecure.url).toBeNull();
+    expect(analyzeProtocol(fixture(), "test", "all", retrievedAt).description).toBeNull();
+  });
   it("withholds overall score for TVL-only evidence and never assigns unknown factors zero", () => {
     const report = analyzeProtocol(fixture(), "test", "all", retrievedAt);
     expect(report.overall).toBeNull(); expect(report.coverage).toBe(35);
