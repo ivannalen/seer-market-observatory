@@ -9,9 +9,12 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- Keep Riskometer presentation in focused observatory components and reuse RISK_PROTOCOLS as its read-only source; selection must never mutate a market estimate.
+- Keep Riskometer demo presentation in focused observatory components with RISK_PROTOCOLS as its read-only source; selection must never mutate a market estimate.
 - Riskometer history dates are explicit demo labels attached in a browser-safe presentation helper, not claims of live market timestamps.
 - Keep handheld power and display-mode state local to the Riskometer; device buttons change presentation or select protocols, never fabricate new readings.
 - Maintain typography through shared CSS tokens and bundled Fontsource stylesheets; this keeps all interfaces consistent and fonts reliable without external requests.
 - Use shared chart-point hit targets, focus rings and pointer/keyboard handlers for interactive SVG data points; charts and lists must act on the same selection state.
 - Import the repository's original Seer logo as a Vite image asset in shared branding; relative Lovable asset-service URLs are not portable to external hosting.
+- Keep real Riskometer analysis separate from demo readings, with browser-safe schema/model helpers and direct public DeFiLlama GET requests; public CORS-enabled endpoints need no credentials or server infrastructure.
+- Load the protocol directory through TanStack Query route loading and keep explicit run/rerun requests in the analysis component; this preserves SSR safety and an intentional research workflow.
+- Withhold overall risk unless the evidence gate passes; model measurements, missing evidence and sources must remain independently inspectable so TVL is never presented as security assurance.

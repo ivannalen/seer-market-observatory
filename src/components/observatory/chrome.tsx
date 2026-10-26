@@ -98,9 +98,9 @@ export function SiteFooter() {
             </p>
             <p className="eyebrow mt-2 text-paper/60">The Observatory — information finance, examined.</p>
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-paper/70">
-              This is a public design prototype. Every figure on every page is illustrative
-              sample data: no live prices, no real trades, no verified statistics. Nothing here
-              is financial advice, and no risk estimate implies safety.
+              This is a public research prototype. Market prices and forecasts are illustrative;
+              Riskometer protocol analysis uses attributed public DeFiLlama observations.
+              No real trades. Nothing here is financial advice, and no risk estimate implies safety.
             </p>
           </div>
           <nav aria-label="Instruments" className="grid grid-cols-2 gap-x-12 gap-y-3 md:grid-cols-1">
@@ -117,7 +117,7 @@ export function SiteFooter() {
         </div>
         <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-paper/20 pt-6">
           <p className="eyebrow text-paper/50">Electric Foundation — prototype</p>
-          <p className="eyebrow text-paper/50">Figures are sample data</p>
+          <p className="eyebrow text-paper/50">Market figures are sample data</p>
         </div>
       </div>
     </footer>
