@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const API_ROOT = "https://api.llama.fi";
 const observation = z.object({ date: z.number().finite(), totalLiquidityUSD: z.number().finite().nonnegative() });
-const tokenObservation = z.object({ date: z.number(), tokens: z.record(z.number().finite().nonnegative()) });
+const tokenObservation = z.object({ date: z.number(), tokens: z.record(z.number().finite()) });
 export const protocolSchema = z.object({
   name: z.string(), category: z.string().optional(), chains: z.array(z.string()).default([]),
   tvl: z.array(observation).default([]),
@@ -62,7 +62,7 @@ export function analyzeProtocol(raw: ProtocolEvidence, slug: string, chain: stri
   const tokens = (chain === "all" ? raw.tokensInUsd : raw.chainTvls[chain]?.tokensInUsd ?? []).slice().sort((a, b) => a.date - b.date).at(-1);
   const values = Object.values(tokens?.tokens ?? {});
   const sum = values.reduce((a, b) => a + b, 0);
-  const tokenUsable = Boolean(tokens && last && fresh && Math.abs(tokens.date - last.date) <= 2 * 86400 && last.totalLiquidityUSD > 0 && sum / last.totalLiquidityUSD >= .8 && sum / last.totalLiquidityUSD <= 1.2);
+  const tokenUsable = Boolean(tokens && last && fresh && values.every(value => value >= 0) && Math.abs(tokens.date - last.date) <= 2 * 86400 && last.totalLiquidityUSD > 0 && sum / last.totalLiquidityUSD >= .8 && sum / last.totalLiquidityUSD <= 1.2);
   const concentration = tokenUsable && sum > 0 ? Math.max(...values) / sum * 100 : null;
   const unknown = (id: string, name: string, weight: number, evidence: string, why: string, next: string): Factor => ({ id, name, weight, score: null, assessment: "Unknown", evidence, date: null, why, next, kind: "Unknown" });
   const factors: Factor[] = [

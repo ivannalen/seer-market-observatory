@@ -108,7 +108,7 @@ export function RiskPage() {
           </div>
         </section>
         </>}
-        <div className="border-t border-rule"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-8"><p className="text-xs text-ink-faint">Illustrative readings. Not an audit or guarantee of safety.</p><Link to="/app" search={{ family: "risk" }} className="inline-flex items-center gap-2 text-xs text-violet-deep">Risk markets in the Seer App <ArrowUpRight className="size-4" /></Link></div></div>
+        <div className="border-t border-rule"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-8"><p className="text-xs text-ink-faint">{mode === "real" ? "Public observations, limited evidence. Not an audit or guarantee of safety." : "Illustrative readings. Not an audit or guarantee of safety."}</p><Link to="/app" search={{ family: "risk" }} className="inline-flex items-center gap-2 text-xs text-violet-deep">Risk markets in the Seer App <ArrowUpRight className="size-4" /></Link></div></div>
       </main>
       <SiteFooter />
     </div>

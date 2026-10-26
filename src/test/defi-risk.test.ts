@@ -50,4 +50,10 @@ describe("Evidence-based Riskometer", () => {
   it("rejects invalid metric values rather than scoring them", () => {
     expect(() => protocolSchema.parse({ name: "Bad", tvl: [{ date: end, totalLiquidityUSD: -1 }] })).toThrow();
   });
+  it("retains valid TVL when token evidence contains negative corrections, without scoring those assets", () => {
+    const raw = protocolSchema.parse({ ...fixture(), tokensInUsd: [{ date: end, tokens: { A: 701, CORRECTION: -1 } }] });
+    const report = analyzeProtocol(raw, "test", "all", retrievedAt);
+    expect(report.currentTvl).toBe(700);
+    expect(report.factors.find(f => f.id === "concentration")?.score).toBeNull();
+  });
 });
