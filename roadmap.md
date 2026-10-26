@@ -48,5 +48,5 @@
 
 ## Portable Seer logo on Vercel
 - [x] Identify the broken Lovable-only image path and restore the original logo as a repository asset
-- [ ] Verify the restored logo in the app and check the favicon separately
-- [ ] Verify the GitHub/Vercel redeployment (requires Git sync and deployment access)
+- [x] Verify the restored header/footer logo in the app and check the favicon separately; automatic build OK and 24 tests pass
+- [ ] Verify the GitHub/Vercel redeployment (blocked: no GitHub or Vercel connection available; deployed site still serves the old broken image path)
