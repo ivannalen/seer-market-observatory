@@ -33,3 +33,11 @@
 - [x] Refine chart and control interactions across the six interfaces
 - [x] Add uploaded Seer logo, matching background and derived favicon
 - [x] Verify typography, core interactions and desktop/mobile layouts — 18 tests pass, all six pages checked at 1280px and 320px without overflow
+
+## Make all six interfaces functional
+- [x] Home question box routes to the matching instrument
+- [x] Deep question form with validation, loading and tabbed sample analysis
+- [x] Futarchy assumption toggles + window slider (simulated, market values untouched)
+- [x] Opportunity search/filter/sort, detail panel, compare up to 3
+- [x] Riskometer exploratory scale probe (pointer + keyboard) with Low/Moderate/Elevated/High bands
+- [x] Tests (23) + mobile click-through
