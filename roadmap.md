@@ -60,4 +60,4 @@
 
 ## Information-finance experience upgrade (uploaded brief)
 - [x] Report: protocol overview (description + website from DeFiLlama, labeled unverified) and conclusion / what-to-investigate-next sections
-- [ ] Real-data critical requirements: 24h/7d TVL changes, chain TVL distribution (not concentration), live verification of displayed numbers
+- [x] Real-data critical requirements: 24h/7d TVL changes, chain TVL distribution (not concentration) — UI numbers verified against the live API (Aave V3: $16,563,037,788; 24h −0.70%, 7d −2.51%, 30d −9.34% all match); 37 tests pass
